@@ -1,4 +1,4 @@
-import { Issue } from '../models/issue.js';
+import { Issue } from '../models/report.js';
 
 // function to create a new issue - NEW ISSUE
 export const newIssue = async (req, res) => {

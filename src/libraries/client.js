@@ -16,5 +16,5 @@ const blobServiceClient = new BlobServiceClient(
   pipeline
 );
 
-// export service client
+// export the service client
 export { blobServiceClient };

@@ -16,12 +16,14 @@ initializeApp({
   credential: applicationDefault(),
 });
 
-// import database connection
-import './db/db.js';
+// initialize the database connection
+import { connect } from './db/connect';
+
+// connect to the mongo database
+connect();
 
 // import the routers
-// issue router goes here
-import { postRouter } from './routes/post.js';
+// FIT THIS LATER!
 
 // create an express instance
 const app = express();
@@ -40,8 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
 
 // register the routers
-// issue router goes here
-app.use(postRouter);
+// FIX THIS LATER
 
 // handle all other routes with angular app - returns angular app
 app.get('*', (req, res) => {

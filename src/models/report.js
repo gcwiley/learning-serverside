@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-// create the issue schema
+// create the report schema
 const issueSchema = new Schema(
   {
     title: {
