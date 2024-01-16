@@ -1,10 +1,13 @@
+// THIS IS AN EXAMPLE OF HOW TO CONNECT TO A MONGO DB RUNNING WITHIN AZURE
+
+import path from 'path';
 import process from 'process';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 
 // load environment variables
 dotenv.config({
-  path: '/Users/gregwiley/Desktop/learning-web-development/learning-serverside/.env',
+  path: path.resolve(process.cwd(), '.env'),
   debug: true,
 });
 
@@ -12,16 +15,15 @@ dotenv.config({
 const uri = process.env.COSMOS_CONNECTION_STRING;
 
 // get the name of the database from the .env file
-const dbName = process.env.DATEBASE_NAME;
+const dbName = process.env.DATABASE_NAME;
 
 async function connect() {
   try {
     // open mongoose's default connection to mongodb
     await mongoose.connect(uri, { dbName: dbName });
-    await mongoose.set('strictQuery', false);
-    console.log(`Successfully connected to the database - ${dbName}`);
+    console.log('\n',`Successfully connected to the database - ${dbName}`,'\n');
   } catch (error) {
-    console.log(`Unable to connect to the ${dbName} database: ${error}`);
+    console.log('\n',`Unable to connect to the ${dbName} database: ${error}`,'\n');
   }
 }
 

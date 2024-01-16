@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 // create the report schema
-const issueSchema = new Schema(
+const reportSchema = new Schema(
   {
     title: {
       type: String,
@@ -27,8 +27,8 @@ const issueSchema = new Schema(
   }
 );
 
-// create the issue model
-const Issue = mongoose.model('Issue', issueSchema);
+// create the report model
+const Report = mongoose.model('Report', reportSchema);
 
-// export the issue model
-export { Issue };
+// export the report model
+export { Report };
