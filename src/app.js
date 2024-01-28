@@ -1,12 +1,12 @@
 import path from 'path';
 import process from 'process';
 import { fileURLToPath } from 'url';
+import chalk from 'chalk';
 
 // get the current file name
 const __filename = fileURLToPath(import.meta.url);
 // get the current directory name
 const __dirname = path.dirname(__filename);
-
 
 import express from 'express';
 import logger from 'morgan';
@@ -15,15 +15,13 @@ import { applicationDefault, initializeApp } from 'firebase-admin/app';
 
 // import the routers
 
-
-
 // Initialize the Firebase SDK
 initializeApp({
   credential: applicationDefault(),
 });
 
 // initialize the database connection
-import { connect } from './db/connect.js';
+import { connect } from './db/connect_to_mongodb.js';
 
 // connect to the mongo database
 connect();
@@ -55,5 +53,5 @@ app.get('*', (req, res) => {
 
 // start the server
 app.listen(port, () => {
-  console.log(`Successfully started server running on port ${port}`);
+  console.log(chalk.green(`Successfully started server running on port ${port}`));
 });

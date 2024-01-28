@@ -1,1 +1,0 @@
-set up es lint

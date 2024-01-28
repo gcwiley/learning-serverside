@@ -4,6 +4,7 @@ import path from 'path';
 import process from 'process';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
+import chalk from 'chalk';
 
 // load environment variables
 dotenv.config({
@@ -21,11 +22,11 @@ async function connect() {
   try {
     // open mongoose's default connection to mongodb
     await mongoose.connect(uri, { dbName: dbName });
-    console.log('\n',`Successfully connected to the database - ${dbName}`,'\n');
+    console.log(chalk.green('\n', `Successfully connected to the database - ${dbName}`, '\n'));
   } catch (error) {
-    console.log('\n',`Unable to connect to the ${dbName} database: ${error}`,'\n');
+    console.log(chalk.red('\n', `Unable to connect to the ${dbName} database: ${error}`, '\n'));
   }
 }
 
-// export the function
+// export the connect function
 export { connect };
