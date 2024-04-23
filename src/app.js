@@ -14,13 +14,14 @@ import logger from 'morgan';
 import { applicationDefault, initializeApp } from 'firebase-admin/app';
 
 // import the routers
+import { heroRouter } from './routes/hero.js';
 
 // Initialize the Firebase SDK
 initializeApp({
   credential: applicationDefault(),
 });
 
-// initialize the database connection
+// initialize the database connection to the mongo altas database
 import { connect } from './db/connect_to_mongodb.js';
 
 // connect to the mongo database
@@ -43,7 +44,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
 
 // register the routers
-// FIX THIS LATER
+app.use(heroRouter);
 
 // handle all other routes with angular app - returns angular app
 app.get('*', (req, res) => {
