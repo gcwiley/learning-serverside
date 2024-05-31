@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { Hero } from '../models/hero.js';
 
 // function to create a new hero - NEW HERO
@@ -5,10 +6,13 @@ export const newHero = async (req, res) => {
   const hero = new Hero(req.body);
 
   try {
+    // saves new hero to database
     await hero.save();
     res.status(201).send(hero);
   } catch (error) {
     res.status(400).send(error);
+    // logs error to console
+    console.error('\n', chalk.bold.red(error), '\n');
   }
 };
 
@@ -25,6 +29,8 @@ export const getHeroes = async (req, res) => {
     res.send(heroes);
   } catch (error) {
     res.status(500).send();
+    // logs error to console
+    console.error('\n', chalk.bold.red(error), '\n');
   }
 };
 
@@ -43,7 +49,9 @@ export const getHeroById = async (req, res) => {
 
     res.send(hero);
   } catch (error) {
-    res.status(500).send();
+    res.status(500).send(error);
+    // logs error to console
+    console.error('\n', chalk.bold.red(error), '\n');
   }
 };
 
@@ -64,6 +72,7 @@ export const updateHeroById = async (req, res) => {
     // send updated hero back to client
     res.send(hero);
   } catch (error) {
+    // send error to client
     res.status(400).send(error);
   }
 };
@@ -82,7 +91,8 @@ export const deleteHeroById = async (req, res) => {
     }
     res.send(hero);
   } catch (error) {
-    res.status(500).send();
+    // send error to client
+    res.status(500).send(error);
   }
 };
 
@@ -99,7 +109,7 @@ export const getHeroCount = async (req, res) => {
 
     res.send(heroCount);
   } catch (error) {
-    res.status(500).send();
+    res.status(500).send(error);
   }
 };
 

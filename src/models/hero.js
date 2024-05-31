@@ -4,9 +4,29 @@ const Schema = mongoose.Schema;
 // create the hero schema
 const heroSchema = new Schema(
   {
-    name: {
+    title: {
       type: String,
-      required: true,
+      // required: true,
+      trim: true,
+    },
+    age: {
+      type: String,
+      // required: true,
+      trim: true,
+    },
+    homePlanet: {
+      type: String,
+      // required: true,
+      trim: true,
+    },
+    superPower: {
+      type: String,
+      // required: true,
+      trim: true,
+    },
+    biography: {
+      type: String,
+      // required: true,
       trim: true,
     },
   },
