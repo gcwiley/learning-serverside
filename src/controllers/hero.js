@@ -104,22 +104,24 @@ export const getHeroCount = async (req, res) => {
 
     // if no hero count are found
     if (!heroCount) {
-      return res.status(404).send();
+      return res.status(404).send('No heroes found');
     }
 
     res.send(heroCount);
   } catch (error) {
     res.status(500).send(error);
+    // if error, log to console
+    console.log(error);
   }
 };
 
-// function to get the 5 most recently create heroes
+// function to get the 5 most recently create heroes - RECENT HEROES
 export const getRecentlyCreatedHeroes = async (req, res) => {
   try {
     const mostRecentHeroes = await Hero.find({}).limit(5);
 
     if (!mostRecentHeroes) {
-      return res.status(404).send();
+      return res.status(404).send('no recent heroes');
     }
     res.send(mostRecentHeroes);
   } catch (error) {

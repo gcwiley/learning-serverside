@@ -32,7 +32,7 @@ router.delete('/api/heroes/:id', deleteHeroById);
 // router handler to count all heroes in database - COUNT ALL HEROES
 router.get('/api/hero-count', getHeroCount);
 
-// router handler to get the last 5 heroes creat - GET 5 RECENT HEROES
+// router handler to get the last 5 heroes created - GET 5 RECENT HEROES
 router.get('/api/recent-heroes', getRecentlyCreatedHeroes);
 
 // export the router to be used

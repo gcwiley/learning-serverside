@@ -6,27 +6,27 @@ const heroSchema = new Schema(
   {
     title: {
       type: String,
-      // required: true,
+      required: true,
       trim: true,
     },
     age: {
       type: String,
-      // required: true,
+      required: true,
       trim: true,
     },
     homePlanet: {
       type: String,
-      // required: true,
+      required: true,
       trim: true,
     },
     superPower: {
       type: String,
-      // required: true,
+      required: true,
       trim: true,
     },
     biography: {
       type: String,
-      // required: true,
+      required: true,
       trim: true,
     },
   },

@@ -3,10 +3,15 @@
 import { DataTypes } from 'sequelize';
 
 // import the sequelize instance
-import { sequelize } from '../db/db.js';
+import { sequelize } from '../db/connect_to_sqldb.js';
 
 // create the Album model
 const Album = sequelize.define('Album', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,
