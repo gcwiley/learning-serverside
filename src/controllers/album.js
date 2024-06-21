@@ -6,12 +6,13 @@ import { Album } from '../models/album.js';
 // function to create a new album - NEW ALBUM
 export const newAlbum = async (req, res) => {
   try {
-    const newAlbum = await Album.create(req.body);
-    res.status(201).send(newAlbum);
+    await Album.create(req.body);
+    res.status(201).send();
+    console.log('added album to database!');
   } catch (error) {
     res.status(400).send(error);
     // if error, log to console
-    console.error('\n', chalk.bold.red(error), '\n');
+    console.error('\n', chalk.red(error), '\n');
   }
 };
 
@@ -117,12 +118,12 @@ export const getAlbumCount = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // log error to console
-    console.log(error);
+    console.error('\n', chalk.red(error), '\n');
   }
 };
 
 // function to get the 5 most recently created albums - RECENT ALBUMS
-export const getRecentlyCreatedHeroes = async (req, res) => {
+export const getRecentlyCreatedAlbums = async (req, res) => {
   try {
     const mostRecentAlbums = await Album.findAll({ limit: 1 });
 
@@ -134,6 +135,6 @@ export const getRecentlyCreatedHeroes = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console
-    console.log(error);
+    console.error('\n', chalk.red(error), '\n');
   }
 };

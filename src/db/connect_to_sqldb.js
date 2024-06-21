@@ -12,13 +12,19 @@ dotenv.config({
   debug: true,
 });
 
+const database = process.env.PGDATABASE;
+const username = process.env.PGUSER;
+const password = process.env.PGPASSWORD;
+const host = process.env.PGHOST;
+const port = process.env.PGPORT;
+
 // create the sequelize instance
-const sequelize = new Sequelize(
-  `postgres://gcwiley:${process.env.PASSWORD}@postgre-sql-server-wiley.postgres.database.azure.com/postgres?sslmode=require`,
-  {
-    dialect: 'postgres', // the dialect of the database is postgres
-  }
-);
+const sequelize = new Sequelize(database, username, password, {
+  host: host,
+  dialect: 'postgres',
+  ssl: true,
+  port: port,
+});
 
 // get the name of the database from the .env file
 const dbName = process.env.DATABASE_NAME;
@@ -26,13 +32,10 @@ const dbName = process.env.DATABASE_NAME;
 // tests the database connection by trying to authenicate
 try {
   await sequelize.authenticate();
-  console.log(chalk.green('\n', `Connection to the database ${dbName}has been established successfully.`, '\n'));
+  console.log(chalk.green('\n', `Connection to the database ${dbName} has been established successfully.`, '\n'));
 } catch (error) {
   console.error(chalk.red('\n', `Unable to connect to the database: ${error}`, '\n'));
 }
-
-// Sync all defined models to the DB.
-sequelize.sync();
 
 // export the sequelize instance
 export { sequelize };

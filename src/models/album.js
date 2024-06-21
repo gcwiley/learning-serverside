@@ -1,46 +1,54 @@
 // this is an example of how to use sequelize to create a model
-
 import { DataTypes } from 'sequelize';
 
 // import the sequelize instance
 import { sequelize } from '../db/connect_to_sqldb.js';
 
 // create the Album model
-const Album = sequelize.define('Album', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
+const Album = sequelize.define(
+  'Album',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    artist: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    releaseDate: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    label: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    studio: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    genre: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    summary: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  artist: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  releaseDate: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  label: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  studio: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  genre: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  summary: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
-// export the Album model
+// sync the album model
+Album.sync({ force: true });
+
+// export the album model
 export { Album };

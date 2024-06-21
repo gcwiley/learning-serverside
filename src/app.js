@@ -14,8 +14,9 @@ import logger from 'morgan';
 import { applicationDefault, initializeApp } from 'firebase-admin/app';
 
 // import the routers
-import { heroRouter } from './routes/hero.js';
+// import { heroRouter } from './routes/hero.js';
 import { albumRouter } from './routes/album.js';
+import { postRouter } from './routes/post.js';
 
 // Initialize the Firebase SDK
 initializeApp({
@@ -23,10 +24,10 @@ initializeApp({
 });
 
 // initialize the database connection to the mongo altas database
-import { connect } from './db/connect_to_mongodb.js';
+// import { connect } from './db/connect_to_mongodb.js';
 
 // connect to the mongo database
-connect();
+// connect();
 
 // create an express instance
 const app = express();
@@ -45,8 +46,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
 
 // register the routers
-app.use(heroRouter);
+// app.use(heroRouter);
 app.use(albumRouter);
+app.use(postRouter);
 
 // handle all other routes with angular app - returns angular app
 app.get('*', (req, res) => {
@@ -56,5 +58,5 @@ app.get('*', (req, res) => {
 
 // start the server
 app.listen(port, () => {
-  console.log(chalk.green(`Successfully started server running on port ${port}`));
+  console.log(chalk.blue('\n', `Successfully started server running on port ${port}`, '\n'));
 });

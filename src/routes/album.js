@@ -11,7 +11,7 @@ import {
   updateAlbumById,
   deleteAlbumById,
   getAlbumCount,
-  getRecentlyCreatedHeroes,
+  getRecentlyCreatedAlbums,
 } from '../controllers/album.js';
 
 // route handler to create a new album - NEW ALBUM
@@ -33,7 +33,7 @@ router.delete('/api/albums/:id', deleteAlbumById);
 router.get('/api/album-count', getAlbumCount);
 
 // route handler to get the last 5 albums created - GET 5 RECENT ALBUMS
-router.get('/api/recent-albums', getRecentlyCreatedHeroes);
+router.get('/api/recent-albums', getRecentlyCreatedAlbums);
 
 // export the router
 export { router as albumRouter };
