@@ -12,6 +12,7 @@ dotenv.config({
   debug: true,
 });
 
+// env variables
 const database = process.env.PGDATABASE;
 const username = process.env.PGUSER;
 const password = process.env.PGPASSWORD;
@@ -22,17 +23,17 @@ const port = process.env.PGPORT;
 const sequelize = new Sequelize(database, username, password, {
   host: host,
   dialect: 'postgres',
-  ssl: true,
+  dialectOptions: {
+    ssl: true,
+  },
   port: port,
 });
 
-// get the name of the database from the .env file
-const dbName = process.env.DATABASE_NAME;
 
 // tests the database connection by trying to authenicate
 try {
   await sequelize.authenticate();
-  console.log(chalk.green('\n', `Connection to the database ${dbName} has been established successfully.`, '\n'));
+  console.log(chalk.magentaBright('\n', `Connection to the SQL database ${database} has been established successfully.`, '\n'));
 } catch (error) {
   console.error(chalk.red('\n', `Unable to connect to the database: ${error}`, '\n'));
 }

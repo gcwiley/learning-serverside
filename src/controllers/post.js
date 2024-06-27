@@ -102,3 +102,38 @@ export const deletePostById = async (req, res) => {
     console.error('\n', chalk.bold.red(error), '\n');
   }
 };
+
+// function to count all posts in database - POST COUNT
+export const getPostCount = async (req, res) => {
+  try {
+    const postCount = await Post.count({});
+
+    // if unable to get post count
+    if (!postCount) {
+      res.status(404).send();
+    }
+
+    res.send(postCount);
+  } catch (error) {
+    res.status(500).send(error);
+    // log error to console
+    console.error('\n', chalk.red(error), '\n');
+  }
+};
+
+// function to get the 5 most recently created posts - RECENT POSTS
+export const getRecentlyCreatedPosts = async (req, res) => {
+  try {
+    const mostRecentPosts = await Post.findAll({ limit: 5 });
+
+    if (!mostRecentPosts) {
+      return res.status(404).send('No posts found');
+    }
+
+    res.send(mostRecentPosts);
+  } catch (error) {
+    res.status(500).send(error);
+    // if error, log to console
+    console.error('\n', chalk.red(error), '\n');
+  }
+};

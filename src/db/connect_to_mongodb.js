@@ -24,7 +24,7 @@ async function connect() {
   try {
     // open mongoose's default connection to mongodb
     await mongoose.connect(mongodb_url, { dbName: dbName });
-    console.log(chalk.blue('\n', `Successfully connected to the database - ${dbName}`, '\n'));
+    console.log(chalk.blue('\n', `Successfully connected to the MONGO database - ${dbName}`, '\n'));
   } catch (error) {
     console.log(chalk.red('\n', `Unable to connect to the ${dbName} database: ${error}`, '\n'));
   }

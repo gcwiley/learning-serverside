@@ -8,7 +8,7 @@ export const newAlbum = async (req, res) => {
   try {
     await Album.create(req.body);
     res.status(201).send();
-    console.log('added album to database!');
+    console.log(chalk.green('Successfully added album to the database!'));
   } catch (error) {
     res.status(400).send(error);
     // if error, log to console
@@ -125,7 +125,7 @@ export const getAlbumCount = async (req, res) => {
 // function to get the 5 most recently created albums - RECENT ALBUMS
 export const getRecentlyCreatedAlbums = async (req, res) => {
   try {
-    const mostRecentAlbums = await Album.findAll({ limit: 1 });
+    const mostRecentAlbums = await Album.findAll({ limit: 5 });
 
     if (!mostRecentAlbums) {
       return res.status(404).send('No albums found');

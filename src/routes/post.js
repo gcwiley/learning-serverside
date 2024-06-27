@@ -4,7 +4,15 @@ import { Router } from 'express';
 const router = new Router();
 
 // import the post controller functions
-import { newPost, getPosts, getPostById, updatePostById, deletePostById } from '../controllers/post.js';
+import {
+  newPost,
+  getPosts,
+  getPostById,
+  updatePostById,
+  deletePostById,
+  getPostCount,
+  getRecentlyCreatedPosts,
+} from '../controllers/post.js';
 
 // route handler to create a new post - NEW POST
 router.post('/api/posts', newPost);
@@ -20,6 +28,12 @@ router.patch('/api/posts/:id', updatePostById);
 
 // route handle to delete an post by ID - DELETE POST
 router.delete('/api/posts/:id', deletePostById);
+
+// router hanlder to count all albums in database - COUNT ALL POSTS
+router.get('/api/post-count', getPostCount);
+
+// route handler to get the last 5 albums created - GET 5 RECENT POSTS
+router.get('/api/recent-posts', getRecentlyCreatedPosts);
 
 // export the router
 export { router as postRouter };
