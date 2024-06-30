@@ -18,7 +18,10 @@ export const newPost = async (req, res) => {
 // function to fetch all posts from database - ALL POSTS
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.findAll({});
+    // sorts be date published 
+    const posts = await Post.findAll({
+      order: [['datePublished', 'DESC']],
+    });
 
     // if no posts are found
     if (!posts) {
@@ -124,13 +127,16 @@ export const getPostCount = async (req, res) => {
 // function to get the 5 most recently created posts - RECENT POSTS
 export const getRecentlyCreatedPosts = async (req, res) => {
   try {
-    const mostRecentPosts = await Post.findAll({ limit: 5 });
+    const recentPosts = await Post.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 10,
+    });
 
-    if (!mostRecentPosts) {
+    if (!recentPosts) {
       return res.status(404).send('No posts found');
     }
 
-    res.send(mostRecentPosts);
+    res.send(recentPosts);
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console

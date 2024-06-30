@@ -125,13 +125,17 @@ export const getAlbumCount = async (req, res) => {
 // function to get the 5 most recently created albums - RECENT ALBUMS
 export const getRecentlyCreatedAlbums = async (req, res) => {
   try {
-    const mostRecentAlbums = await Album.findAll({ limit: 5 });
+    // finds most 10 recent albums and sorts by 'createdAt' in descending order
+    const recentAlbums = await Album.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 10,
+    });
 
-    if (!mostRecentAlbums) {
+    if (!recentAlbums) {
       return res.status(404).send('No albums found');
     }
 
-    res.send(mostRecentAlbums);
+    res.send(recentAlbums);
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console

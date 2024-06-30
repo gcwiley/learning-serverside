@@ -22,7 +22,7 @@ const Album = sequelize.define(
       allowNull: false,
     },
     releaseDate: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     label: {
@@ -38,7 +38,7 @@ const Album = sequelize.define(
       allowNull: false,
     },
     summary: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
   },
@@ -48,7 +48,7 @@ const Album = sequelize.define(
 );
 
 // sync the album model
-Album.sync({ force: true });
+Album.sync();
 
 // export the album model
 export { Album };

@@ -118,12 +118,12 @@ export const getHeroCount = async (req, res) => {
 // function to get the 5 most recently create heroes - RECENT HEROES
 export const getRecentlyCreatedHeroes = async (req, res) => {
   try {
-    const mostRecentHeroes = await Hero.find({});
+    const recentHeroes = await Hero.find({});
 
-    if (!mostRecentHeroes) {
+    if (!recentHeroes) {
       return res.status(404).send('no recent heroes');
     }
-    res.send(mostRecentHeroes);
+    res.send(recentHeroes);
   } catch (error) {
     res.status(500).send(error);
   }
