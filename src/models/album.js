@@ -22,7 +22,7 @@ const Album = sequelize.define(
       allowNull: false,
     },
     releaseDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     label: {
