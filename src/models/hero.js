@@ -1,33 +1,37 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+// this is an example of how to use sequelize to create a data model
+import { DataTypes } from 'sequelize';
 
-// create the hero schema
-const heroSchema = new Schema(
+// import the sequelize instance
+import { sequelize } from '../db/connect_to_sqldb.js';
+
+const Hero = sequelize.define(
+  'Hero',
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     name: {
-      type: String,
-      required: true,
-      trim: true,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     age: {
-      type: String,
-      required: true,
-      trim: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     homePlanet: {
-      type: String,
-      required: true,
-      trim: true,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     superPower: {
-      type: String,
-      required: true,
-      trim: true,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     biography: {
-      type: String,
-      required: true,
-      trim: true,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
@@ -35,8 +39,14 @@ const heroSchema = new Schema(
   }
 );
 
-// create the hero model
-const Hero = mongoose.model('Hero', heroSchema);
+// sync the hero model
+Hero.sync()
+  .then(() => {
+    console.log('Successfully synced the hero model');
+  })
+  .catch((error) => {
+    console.log(`Error: ${error}`);
+  });
 
 // export the hero model
 export { Hero };

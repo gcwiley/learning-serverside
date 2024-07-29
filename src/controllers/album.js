@@ -1,17 +1,27 @@
 // this is an example of a controller that uses sequelize to read/write to a SQL database
 
 import chalk from 'chalk';
+
 import { Album } from '../models/album.js';
 
 // function to create a new album - NEW ALBUM
 export const newAlbum = async (req, res) => {
   try {
-    await Album.create(req.body);
-    res.status(201).send();
+    // Builds a new model instance and calls save on it.
+    await Album.create({
+      title: req.body.title,
+      artist: req.body.artist,
+      releaseDate: req.body.releaseDate,
+      label: req.body.label,
+      studio: req.body.studio,
+      genre: req.body.genre,
+      summary: req.body.summary,
+    });
+    res.status(201).send('Successfully added album to database');
     console.log(chalk.green('Successfully added album to the database!'));
   } catch (error) {
     res.status(400).send(error);
-    // if error, log to console
+    // if error, log error to console
     console.error('\n', chalk.red(error), '\n');
   }
 };
@@ -93,7 +103,7 @@ export const deleteAlbumById = async (req, res) => {
 
     // if no album is found
     if (!album) {
-      res.status(404).send();
+      res.status(404).send('No Album found');
     }
 
     res.send(album);
@@ -111,7 +121,7 @@ export const getAlbumCount = async (req, res) => {
 
     // if unable to get album count
     if (!albumCount) {
-      res.status(404).send();
+      res.status(404).send('Unable to get album count.');
     }
 
     res.send(albumCount);
@@ -132,7 +142,7 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
     });
 
     if (!recentAlbums) {
-      return res.status(404).send('No albums found');
+      return res.status(404).send('No albums found.');
     }
 
     res.send(recentAlbums);

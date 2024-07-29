@@ -1,4 +1,4 @@
-// this is an example of how to use sequelize to create a model
+// this is an example of how to use sequelize to create a data model
 import { DataTypes } from 'sequelize';
 
 // import the sequelize instance
@@ -12,6 +12,7 @@ const Album = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
@@ -22,7 +23,7 @@ const Album = sequelize.define(
       allowNull: false,
     },
     releaseDate: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     label: {
@@ -48,7 +49,13 @@ const Album = sequelize.define(
 );
 
 // sync the album model
-Album.sync();
+Album.sync()
+  .then(() => {
+    console.log('Successfully synced the album model');
+  })
+  .catch((error) => {
+    console.log(`Error: ${error}`);
+  });
 
 // export the album model
 export { Album };

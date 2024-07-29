@@ -1,14 +1,19 @@
 import chalk from 'chalk';
+
 import { Hero } from '../models/hero.js';
 
 // function to create a new hero - NEW HERO
 export const newHero = async (req, res) => {
-  const hero = new Hero(req.body);
-
   try {
-    // saves new hero to database
-    await hero.save();
-    res.status(201).send(hero);
+    // Builds a new model instance and calls save on it.
+    await Hero.create({
+      name: req.body.name,
+      age: req.body.age,
+      homePlanet: req.body.homePlanet,
+      superPower: req.body.superPower,
+      biography: req.body.biography,
+    });
+    res.status(201).send('Successfully added hero to database');
   } catch (error) {
     res.status(400).send(error);
     // logs error to console
@@ -19,7 +24,7 @@ export const newHero = async (req, res) => {
 // function to fetch all heroes from database - ALL HEROS
 export const getHeroes = async (req, res) => {
   try {
-    const heroes = await Hero.find({}).sort({ title: 'desc' });
+    const heroes = await Hero.findAll({});
 
     // if no heroes are found
     if (!heroes) {
@@ -36,11 +41,11 @@ export const getHeroes = async (req, res) => {
 
 // function to fetch individual hero by ID - HERO BY ID
 export const getHeroById = async (req, res) => {
-  const _id = req.params.id;
+  // converts id string to an integer
+  const id = req.params.id;
 
   try {
-    // filters by _id
-    const hero = await Hero.findById({ _id });
+    const hero = await Hero.findByPk(id);
 
     // if no hero is found
     if (!hero) {
@@ -57,11 +62,14 @@ export const getHeroById = async (req, res) => {
 
 // function to update a hero by id - UPDATE HERO
 export const updateHeroById = async (req, res) => {
+  // convert string to integer
+  const id = req.params.id;
+
   try {
-    const _id = req.params.id;
-    const hero = await Hero.findByIdAndUpdate(_id, req.body, {
-      new: true,
-      runValidators: true,
+    const hero = await Hero.update(req.body, {
+      where: {
+        id: id,
+      },
     });
 
     // is no hero is found
@@ -79,10 +87,13 @@ export const updateHeroById = async (req, res) => {
 
 // function to delete a hero by ID - DELETE HERO
 export const deleteHeroById = async (req, res) => {
+  // convert string to integer
+  const id = parseInt(req.params.id);
+
   try {
     // find and delete hero that takes id into account
-    const hero = await Hero.findByIdAndDelete({
-      _id: req.params.id,
+    const hero = await Hero.destroy({
+      id: id,
     });
 
     // if no hero is found
@@ -100,11 +111,11 @@ export const deleteHeroById = async (req, res) => {
 export const getHeroCount = async (req, res) => {
   try {
     // count all heroes within database
-    const heroCount = await Hero.countDocuments({});
+    const heroCount = await Hero.count({});
 
     // if no hero count are found
     if (!heroCount) {
-      return res.status(404).send('No heroes found');
+      return res.status(404).send('Unable to get hero count.');
     }
 
     res.send(heroCount);
@@ -118,7 +129,10 @@ export const getHeroCount = async (req, res) => {
 // function to get the 5 most recently create heroes - RECENT HEROES
 export const getRecentlyCreatedHeroes = async (req, res) => {
   try {
-    const recentHeroes = await Hero.find({});
+    const recentHeroes = await Hero.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 10,
+    });
 
     if (!recentHeroes) {
       return res.status(404).send('no recent heroes');

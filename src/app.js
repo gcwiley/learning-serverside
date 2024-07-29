@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import express from 'express';
-import logger from 'morgan';
+// import logger from 'morgan';
 
 import { applicationDefault, initializeApp } from 'firebase-admin/app';
 
@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // create a logger middleware
-app.use(logger('dev'));
+// app.use(logger('dev'));
 
 // register the routers
 app.use(heroRouter);
