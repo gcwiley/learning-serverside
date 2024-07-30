@@ -14,6 +14,7 @@ export const newHero = async (req, res) => {
       biography: req.body.biography,
     });
     res.status(201).send('Successfully added hero to database');
+    console.log(chalk.blue('\n', 'Successfully added hero to the database!', '\n'));
   } catch (error) {
     res.status(400).send(error);
     // logs error to console

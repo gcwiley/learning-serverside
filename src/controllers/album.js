@@ -29,7 +29,9 @@ export const newAlbum = async (req, res) => {
 // function to fetch all albums from database - ALL ALBUMS
 export const getAlbums = async (req, res) => {
   try {
-    const albums = await Album.findAll({});
+    const albums = await Album.findAll({
+      order: [['updatedAt', 'DESC']],
+    });
 
     // if no albums are found
     if (!albums) {
@@ -106,7 +108,7 @@ export const deleteAlbumById = async (req, res) => {
       res.status(404).send('No Album found');
     }
 
-    res.send(album);
+    res.status(201).send('Successfullly deleted album.');
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console

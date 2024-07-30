@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import express from 'express';
-// import logger from 'morgan';
+import logger from 'morgan';
 
 import { applicationDefault, initializeApp } from 'firebase-admin/app';
 
@@ -21,12 +21,6 @@ import { albumRouter } from './routes/album.js';
 initializeApp({
   credential: applicationDefault(),
 });
-
-// initialize the database connection to the mongo altas database
-import { connect } from './db/connect_to_mongodb.js';
-
-// connect to the mongo database
-connect();
 
 // create an express instance
 const app = express();
@@ -42,7 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // create a logger middleware
-// app.use(logger('dev'));
+app.use(logger('dev'));
 
 // register the routers
 app.use(heroRouter);
