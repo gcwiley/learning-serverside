@@ -49,7 +49,7 @@ const Album = sequelize.define(
 );
 
 // sync the album model
-Album.sync({ force: true })
+Album.sync()
   .then(() => {
     console.log('Successfully synced the album model');
   })

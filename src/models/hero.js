@@ -40,7 +40,7 @@ const Hero = sequelize.define(
 );
 
 // sync the hero model
-Hero.sync({ force: true })
+Hero.sync()
   .then(() => {
     console.log('Successfully synced the hero model');
   })
