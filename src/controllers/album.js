@@ -22,7 +22,7 @@ export const newAlbum = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
     // if error, log error to console
-    console.error('\n', chalk.red(error), '\n');
+    console.error(error);
   }
 };
 
@@ -42,7 +42,7 @@ export const getAlbums = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console
-    console.error('\n', chalk.bold.red(error), '\n');
+    console.error(error);
   }
 };
 
@@ -63,11 +63,11 @@ export const getAlbumById = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console
-    console.error('\n', chalk.bold.red(error), '\n');
+    console.error(error);
   }
 };
 
-// function to update album by id - UPDATE ALBUM
+// function to update a album by id - UPDATE ALBUM
 export const updateAlbumById = async (req, res) => {
   // convert string to integer
   const id = parseInt(req.params.id);
@@ -79,15 +79,16 @@ export const updateAlbumById = async (req, res) => {
       },
     });
 
+    // if no album is found
     if (!album) {
-      res.status(404).send('No Album found');
+      res.status(404).send('No Album found.');
     }
 
     res.send(album);
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console
-    console.error('\n', chalk.bold.red(error), '\n');
+    console.error(error);
   }
 };
 
@@ -112,7 +113,7 @@ export const deleteAlbumById = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console
-    console.error('\n', chalk.bold.red(error), '\n');
+    console.error(error);
   }
 };
 
@@ -130,7 +131,7 @@ export const getAlbumCount = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // log error to console
-    console.error('\n', chalk.red(error), '\n');
+    console.error(error);
   }
 };
 
@@ -151,6 +152,6 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console
-    console.error('\n', chalk.red(error), '\n');
+    console.error(error);
   }
 };

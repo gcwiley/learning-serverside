@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 
+// import the hero model
 import { Hero } from '../models/hero.js';
 
 // function to create a new hero - NEW HERO
@@ -18,7 +19,7 @@ export const newHero = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
     // logs error to console
-    console.error('\n', chalk.bold.red(error), '\n');
+    console.error(error);
   }
 };
 
@@ -36,7 +37,7 @@ export const getHeroes = async (req, res) => {
   } catch (error) {
     res.status(500).send();
     // logs error to console
-    console.error('\n', chalk.bold.red(error), '\n');
+    console.error(error);
   }
 };
 
@@ -57,14 +58,14 @@ export const getHeroById = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // logs error to console
-    console.error('\n', chalk.bold.red(error), '\n');
+    console.error(error);
   }
 };
 
 // function to update a hero by id - UPDATE HERO
 export const updateHeroById = async (req, res) => {
   // convert string to integer
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
 
   try {
     const hero = await Hero.update(req.body, {
@@ -81,8 +82,9 @@ export const updateHeroById = async (req, res) => {
     // send updated hero back to client
     res.send(hero);
   } catch (error) {
-    // send error to client
-    res.status(400).send(error);
+    res.status(500).send(error);
+    // if error, log to console
+    console.error(error);
   }
 };
 
@@ -94,7 +96,9 @@ export const deleteHeroById = async (req, res) => {
   try {
     // find and delete hero that takes id into account
     const hero = await Hero.destroy({
-      id: id,
+      where: {
+        id: id,
+      },
     });
 
     // if no hero is found
@@ -103,8 +107,9 @@ export const deleteHeroById = async (req, res) => {
     }
     res.send(hero);
   } catch (error) {
-    // send error to client
     res.status(500).send(error);
+    // if error, log to console
+    console.error(error);
   }
 };
 
@@ -123,7 +128,7 @@ export const getHeroCount = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
     // if error, log to console
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -141,5 +146,7 @@ export const getRecentlyCreatedHeroes = async (req, res) => {
     res.send(recentHeroes);
   } catch (error) {
     res.status(500).send(error);
+    // if error, log to console
+    console.error(error);
   }
 };

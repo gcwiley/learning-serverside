@@ -30,7 +30,7 @@ const Hero = sequelize.define(
       allowNull: false,
     },
     biography: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
   },
