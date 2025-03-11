@@ -1,0 +1,18 @@
+# specifies the version of the Docker compose file format that this file adheres to.
+# tells docker compose how to interpret the rest of the file.
+# using a version greater than 3.0 is recommended
+version: '3.9'
+# defines the different services that will be managed by docker compose
+# think of services as the invidual containers or applications that make up your overall application. You will define each of them below
+services:
+# defines a service named 'app'
+  app:
+    build: . # build keyword indicates that you want to build a docker image from a Dockerfile 
+    # the single . means the current directory
+    ports:
+      - '3000:3000' # specifies the port mappings between the host machine and the container
+    volumes: # defines volume mounts. volumes allow you to share data between your host machine and the container or between multiple containers
+      - .:/app # mounts your current working directory into the /app directory
+
+    # run the npm run dev command inside the container, starting your development server. 
+    command: npm run dev

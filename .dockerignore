@@ -1,2 +1,3 @@
+# include any files or directories that you dont want to be copied to your container here
 node_modules
 npm-debug-log

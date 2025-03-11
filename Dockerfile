@@ -1,14 +1,24 @@
 # syntax=docker/dockerfile:1
 
-FROM node:12.18.1
-ENV NODE_ENV=production
+# use an official node.js runtime as a parent image
+# starts with a clean node.js base image
+FROM node:20
 
-WORKDIR /app
+# set the working directory in the container
+WORKDIR /usr/src/app
 
-COPY ["package.json", "package-lock.json*", "./"]
+# copy package.json and package-lock.json 
+COPY package*.json ./
 
-RUN npm install --production
+# install the application dependencies
+# creates a 'node_modules' directory within the container, containing all of the required dependencies. 
+RUN npm install
 
-COPY . .
+# copy the application code
+COPY . . 
 
-CMD [ "node", "server.js" ]
+# expose the port the application listens on.
+EXPOSE 3000
+
+# run the application - the container will run this command when it starts
+CMD node src/app.js
