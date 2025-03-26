@@ -1,8 +1,11 @@
 # syntax=docker/dockerfile:1
 
-# use an official node.js runtime as a parent image
-# starts with a clean node.js base image
-FROM node:20
+ARG NODE_VERSION=22.0.0
+
+FROM node:${NODE_VERSION}
+
+# use production mode environment by default
+ENV NODE_ENV production
 
 # set the working directory in the container
 WORKDIR /usr/src/app
@@ -13,6 +16,9 @@ COPY package*.json ./
 # install the application dependencies
 # creates a 'node_modules' directory within the container, containing all of the required dependencies. 
 RUN npm install
+
+# run the application as a non-root user
+USER node
 
 # copy the application code
 COPY . . 
