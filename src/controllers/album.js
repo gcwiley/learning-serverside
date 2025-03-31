@@ -29,7 +29,7 @@ export const getAlbums = async (req, res) => {
     });
 
     // if no albums are found
-    if (!albums) {
+    if (albums.length === 0) {
       return res.status(404).send('No Albums found');
     }
 

@@ -1,7 +1,7 @@
 {
   "name": "learning-serverside",
   "version": "1.0.0",
-  "description": "",
+  "description": "learning serverside javascript web development",
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
