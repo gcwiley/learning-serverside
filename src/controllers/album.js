@@ -1,7 +1,4 @@
 // this is an example of a controller that uses sequelize to read/write to a SQL database
-
-import chalk from 'chalk';
-
 import { Album } from '../models/album.js';
 
 // function to create a new album - NEW ALBUM
@@ -11,18 +8,16 @@ export const newAlbum = async (req, res) => {
     await Album.create({
       title: req.body.title,
       artist: req.body.artist,
-      releaseDate: req.body.releaseDate,
+      releaseDate: new Date(req.body.releaseDate),
       label: req.body.label,
       studio: req.body.studio,
       genre: req.body.genre,
       summary: req.body.summary,
     });
     res.status(201).send('Successfully added album to database');
-    console.log(chalk.green('Successfully added album to the database!'));
   } catch (error) {
-    res.status(400).send(error);
-    // if error, log error to console
     console.error(error);
+    res.status(400).json({ message: 'error' });
   }
 };
 
@@ -46,10 +41,10 @@ export const getAlbums = async (req, res) => {
   }
 };
 
-// function to fetch invidual album by id = ALBUM BY ID
+// function to fetch invidual album by id - ALBUM BY ID
 export const getAlbumById = async (req, res) => {
   // converts id string to an integer
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
   try {
     const album = await Album.findByPk(id);
@@ -61,17 +56,17 @@ export const getAlbumById = async (req, res) => {
 
     res.send(album);
   } catch (error) {
-    res.status(500).send(error);
-    // if error, log to console
     console.error(error);
+    res.status(500).send(error);
   }
 };
 
 // function to update a album by id - UPDATE ALBUM
 export const updateAlbumById = async (req, res) => {
-  // convert string to integer
-  const id = parseInt(req.params.id);
+  // convert a string to integer
+  const id = parseInt(req.params.id, 10);
 
+  // fix this!
   try {
     const album = await Album.update(req.body, {
       where: {
@@ -86,16 +81,15 @@ export const updateAlbumById = async (req, res) => {
 
     res.send(album);
   } catch (error) {
-    res.status(500).send(error);
-    // if error, log to console
     console.error(error);
+    res.status(500).send(error);
   }
 };
 
 // function to delete album by id - DELETE ALBUM
 export const deleteAlbumById = async (req, res) => {
   // convert string to integer
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
   try {
     const album = await Album.destroy({
@@ -111,9 +105,8 @@ export const deleteAlbumById = async (req, res) => {
 
     res.status(201).send('Successfullly deleted album.');
   } catch (error) {
-    res.status(500).send(error);
-    // if error, log to console
     console.error(error);
+    res.status(500).send(error);
   }
 };
 
@@ -129,9 +122,8 @@ export const getAlbumCount = async (req, res) => {
 
     res.send(albumCount);
   } catch (error) {
-    res.status(500).send(error);
-    // log error to console
     console.error(error);
+    res.status(500).send(error);
   }
 };
 
@@ -150,8 +142,7 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
 
     res.send(recentAlbums);
   } catch (error) {
-    res.status(500).send(error);
-    // if error, log to console
     console.error(error);
+    res.status(500).send(error);
   }
 };

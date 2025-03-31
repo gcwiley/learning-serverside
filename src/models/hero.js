@@ -8,7 +8,7 @@ const Hero = sequelize.define(
   'Hero',
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUIDV4,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,

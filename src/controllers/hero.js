@@ -1,5 +1,3 @@
-import chalk from 'chalk';
-
 // import the hero model
 import { Hero } from '../models/hero.js';
 
@@ -15,11 +13,9 @@ export const newHero = async (req, res) => {
       biography: req.body.biography,
     });
     res.status(201).send('Successfully added hero to database');
-    console.log(chalk.blue('\n', 'Successfully added hero to the database!', '\n'));
   } catch (error) {
-    res.status(400).send(error);
-    // logs error to console
     console.error(error);
+    res.status(400).send(error);
   }
 };
 
@@ -56,16 +52,15 @@ export const getHeroById = async (req, res) => {
 
     res.send(hero);
   } catch (error) {
-    res.status(500).send(error);
-    // logs error to console
     console.error(error);
+    res.status(500).send(error);
   }
 };
 
 // function to update a hero by id - UPDATE HERO
 export const updateHeroById = async (req, res) => {
   // convert string to integer
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
   try {
     const hero = await Hero.update(req.body, {
@@ -82,16 +77,15 @@ export const updateHeroById = async (req, res) => {
     // send updated hero back to client
     res.send(hero);
   } catch (error) {
-    res.status(500).send(error);
-    // if error, log to console
     console.error(error);
+    res.status(500).send(error);
   }
 };
 
 // function to delete a hero by ID - DELETE HERO
 export const deleteHeroById = async (req, res) => {
   // convert string to integer
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
 
   try {
     // find and delete hero that takes id into account
@@ -107,9 +101,8 @@ export const deleteHeroById = async (req, res) => {
     }
     res.send(hero);
   } catch (error) {
-    res.status(500).send(error);
-    // if error, log to console
     console.error(error);
+    res.status(500).send(error);
   }
 };
 
@@ -126,9 +119,8 @@ export const getHeroCount = async (req, res) => {
 
     res.send(heroCount);
   } catch (error) {
-    res.status(500).send(error);
-    // if error, log to console
     console.error(error);
+    res.status(500).send(error);
   }
 };
 
@@ -141,12 +133,11 @@ export const getRecentlyCreatedHeroes = async (req, res) => {
     });
 
     if (!recentHeroes) {
-      return res.status(404).send('no recent heroes');
+      return res.status(404).json('no recent heroes');
     }
     res.send(recentHeroes);
   } catch (error) {
     res.status(500).send(error);
-    // if error, log to console
     console.error(error);
   }
 };

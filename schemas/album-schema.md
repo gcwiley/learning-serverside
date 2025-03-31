@@ -1,26 +1,34 @@
-1. ID (_id)
-    - string
+1. ID (\_id)
+
+   -  string
 
 2. Title (title)
-    - string
+
+   -  string
 
 3. Artist (artist)
-    - string
+
+   -  string
 
 4. Release Date (releaseDate)
-    - string
+
+   -  string
 
 5. Label (label)
-    - String
+
+   -  string
 
 6. Studio (studio)
-    - String
+
+   -  string
 
 7. Genre (genre)
-    - String
+
+   -  string
 
 8. Image Url (imageUrl)
-    - String
+
+   -  string
 
 9. Summary (summary)
-    - String
+   -  string

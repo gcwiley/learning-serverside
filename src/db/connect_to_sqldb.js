@@ -29,13 +29,20 @@ const sequelize = new Sequelize(database, username, password, {
   port: port,
 });
 
-
 // tests the database connection by trying to authenicate
 try {
   await sequelize.authenticate();
-  console.log(chalk.magentaBright('\n', `Connection to the SQL database ${database} has been established successfully.`, '\n'));
+  console.log(
+    chalk.magentaBright(
+      '\n',
+      `Connection to the SQL database ${database} has been established successfully.`,
+      '\n'
+    )
+  );
 } catch (error) {
-  console.error(chalk.red('\n', `Unable to connect to the database: ${error}`, '\n'));
+  console.error(
+    chalk.red('\n', `Unable to connect to the database: ${error}`, '\n')
+  );
 }
 
 // export the sequelize instance

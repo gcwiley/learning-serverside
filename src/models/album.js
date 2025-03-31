@@ -9,7 +9,7 @@ const Album = sequelize.define(
   'Album',
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUIDV4,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
@@ -54,7 +54,7 @@ Album.sync()
     console.log('Successfully synced the album model');
   })
   .catch((error) => {
-    console.log(`Error: ${error}`);
+    console.error(`Error: ${error}`);
   });
 
 // export the album model
