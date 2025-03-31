@@ -21,6 +21,10 @@ const Hero = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    dateOfBirth: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     homePlanet: {
       type: DataTypes.STRING,
       allowNull: false,
