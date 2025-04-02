@@ -1,9 +1,5 @@
-// this is an example of how to use sequelize to create a data model
 import { DataTypes } from 'sequelize';
-import { initializeDatabase } from '../db/connect_to_sqldb.js';
-
-// initialize the database and get the sequelize instance
-const sequelize = await initializeDatabase();
+import { sequelize } from '../db/connect_to_sqldb.js';
 
 // define the album model
 const Album = sequelize.define(
@@ -19,7 +15,7 @@ const Album = sequelize.define(
       },
       releaseDate: {
          type: DataTypes.DATE,
-         allowNull: false,
+         allowNull: false, // ensure that date is not null
       },
       label: {
          type: DataTypes.STRING,
@@ -40,6 +36,11 @@ const Album = sequelize.define(
    },
    {
       timestamps: true,
+      indexes: [
+         {
+            fields: ['artist', 'genre'], // adds a composite index on the 'artist' and 'genre' columns
+         },
+      ],
    }
 );
 
