@@ -1,4 +1,3 @@
-// this is an example of a controller that uses sequelize to read/write to a SQL database
 import { Album } from '../models/album.js';
 
 // Function to create a new album - NEW ALBUM
@@ -25,7 +24,7 @@ export const newAlbum = async (req, res) => {
 export const getAlbums = async (req, res) => {
    try {
       const albums = await Album.findAll({
-         order: [['updatedAt', 'DESC']],
+         order: [['releaseDate', 'DESC']],
       });
 
       // if no albums are found
@@ -74,7 +73,7 @@ export const updateAlbumById = async (req, res) => {
 
       // if no album is found
       if (!updatedAlbum) {
-         res.status(404).send('No Album found.');
+         res.status(404).json('No Album found.');
       }
 
       res.status(200).json({ message: 'Album updated successfully', album: updatedAlbum });
@@ -112,11 +111,6 @@ export const deleteAlbumById = async (req, res) => {
 export const getAlbumCount = async (req, res) => {
    try {
       const albumCount = await Album.count({});
-
-      // if unable to get album count
-      if (!albumCount) {
-         res.status(404).send('Unable to get album count.');
-      }
 
       res.send(albumCount);
    } catch (error) {

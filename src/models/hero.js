@@ -1,18 +1,13 @@
 // this is an example of how to use sequelize to create a data model
 import { DataTypes } from 'sequelize';
+import { initializeDatabase } from '../db/connect_to_sqldb.js';
 
-// import the sequelize instance
-import { sequelize } from '../db/connect_to_sqldb.js';
+// initialize the database and get the sequelize instance
+const sequelize = await initializeDatabase();
 
 const Hero = sequelize.define(
   'Hero',
   {
-    id: {
-      type: DataTypes.UUIDV4,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -23,7 +18,7 @@ const Hero = sequelize.define(
     },
     dateOfBirth: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
     },
     homePlanet: {
       type: DataTypes.STRING,

@@ -112,11 +112,7 @@ export const getHeroCount = async (req, res) => {
     // count all heroes within database
     const heroCount = await Hero.count({});
 
-    // if no hero count are found
-    if (!heroCount) {
-      return res.status(404).send('Unable to get hero count.');
-    }
-
+    // fix this!
     res.send(heroCount);
   } catch (error) {
     console.error(error);

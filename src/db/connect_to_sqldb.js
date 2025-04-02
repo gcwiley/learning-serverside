@@ -1,5 +1,3 @@
-// THIS IS AN EXAMPLE OF HOW TO CONNECT TO A SQL DB RUNNING ON AZURE CLOUD
-
 import path from 'path';
 import process from 'process';
 import { Sequelize } from 'sequelize';
