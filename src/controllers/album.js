@@ -40,6 +40,52 @@ export const getAlbums = async (req, res) => {
       res.status(500).json({ message: 'Error fetching albums', error });
    }
 };
+// function to fetch all albums from the database - GET ALBUMS PAGINATION
+export const getPaginatedAlbums = async (req, res) => {
+   try {
+      // extract and validate pagination parameters from query string (with default values)
+      let page = parseInt(req.query.page, 10) || 1; // default page is 1
+      let size = parseInt(req.query.size, 10) || 10; // default size is 10
+
+      // page and size must be positive integers
+      if (page < 1) page = 1;
+      if (page < 1) size = 10;
+
+      // fetch the data and the count from the database
+      const { count, row } = await Album.findAndCountAll({
+         limit: limit,
+         offset: offset,
+         orderL [['date', 'DESC']], // order albums by date descending
+      });
+
+      const totalPages = Math.ceil(count / size)
+
+      // handle cases where the requested page is out of bounds
+      if (page > totalPage) {
+         return res.status(200).json({
+            totalItems: count,
+            totalPages: totalPages,
+            currentPage: page,
+            itemsPerPage: size,
+            items: [], // return an empty array if the page is out of bounds
+         });
+      }
+
+      // construct response is a paginated format
+      const paginationResult = {
+         totalItems: count,
+         totalPages: totalPages,
+         currentPage: page,
+         itemsPerPage: size,
+         items: rows,
+      };
+
+      res.status(200).json(paginationResult);
+   } catch (error) {
+      console.error('Error in fetching paginated data:', error);
+      res.status(500).json({ message: 'Internal Server Error' })
+   }
+};
 
 // Function to fetch invidual album by id - ALBUM BY ID
 export const getAlbumById = async (req, res) => {
