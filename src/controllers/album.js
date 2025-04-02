@@ -79,18 +79,18 @@ export const updateAlbumById = async (req, res) => {
    }
 
    try {
-      const updatedAlbum = await Album.update(req.body, {
+      const [updatedAlbum] = await Album.update(req.body, {
          where: {
             id: id,
          },
       });
 
-      // if no album is found
-      if (!updatedAlbum) {
-         res.status(404).json('No Album found.');
+      // if no album is found to update
+      if (updatedAlbum === 0) {
+         res.status(404).json({ message: 'No album with that ID was found.' });
       }
 
-      res.status(200).json({ message: 'Album updated successfully', album: updatedAlbum });
+      res.status(204).send();
    } catch (error) {
       console.error('Error updating album', error);
       res.status(500).json({ message: 'Error updating album', error });
@@ -108,18 +108,18 @@ export const deleteAlbumById = async (req, res) => {
    }
 
    try {
-      const album = await Album.destroy({
+      const deletedAlbum = await Album.destroy({
          where: {
             id: id,
          },
       });
 
       // if no album is found
-      if (!album) {
+      if (deletedAlbum === 0) {
          res.status(404).json({ message: 'No album with that ID was found.');
       }
 
-      res.status(201).json({ message: 'Successfullly deleted album.' });
+      res.status(204).send(); // returning no content for a successful deletion.
    } catch (error) {
       console.error('Error deleting event.', error);
       res.status(500).json({ message: 'Internal Server Error', error);
