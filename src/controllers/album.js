@@ -13,9 +13,9 @@ export const newAlbum = async (req, res) => {
          genre: req.body.genre,
          summary: req.body.summary,
       });
-      res.status(201).json({ message: 'Successfully added album to database', album: album });
+      res.status(201).json({ message: 'Successfully added album to the database' });
    } catch (error) {
-      console.error(error);
+      console.error('Error creating album:', error);
       res.status(400).json({ message: 'Error creating album', error: error.message });
    }
 };
@@ -23,46 +23,60 @@ export const newAlbum = async (req, res) => {
 // Function to fetch all albums from database - ALL ALBUMS
 export const getAlbums = async (req, res) => {
    try {
+      // retrieve all albums ordered by date (most recent first_
       const albums = await Album.findAll({
-         order: [['releaseDate', 'DESC']],
+         order: [['releaseDate', 'DESC']], // order albums by date
       });
 
-      // if no albums are found
+      // if no albums are found, handle the empty result
       if (albums.length === 0) {
          return res.status(404).json({ message: 'No albums found' });
       }
 
+      // send the list of albums to the client
       res.status(200).json(albums);
    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error fetching albums', error: error.message });
+      console.error('Error fetching albums:', error);
+      res.status(500).json({ message: 'Error fetching albums', error });
    }
 };
 
 // Function to fetch invidual album by id - ALBUM BY ID
 export const getAlbumById = async (req, res) => {
-   // converts id string to an integer
-   const id = parseInt(req.params.id, 10);
+   // convert id string to an integer and preform minimal validation
+   const id = parseInt(req.params.id, 10); // the second argument to parseInt enforces base-10 parsing
 
+   // check if 'id' is a valid integer
+   if (isNaN(id)) {
+      return res.status(400).json({ message: 'Invalid album ID' });
+   }
+ 
    try {
+      // find the album by primary key (assumes 'id' is the primary key in the album model)
       const album = await Album.findByPk(id);
 
-      // if album is not found
+      // if album is not found, handle the empty result
       if (!album) {
-         return res.status(404).json({ message: 'Album not found' });
+         return res.status(404).json({ message: 'No album with that ID was found.' });
       }
 
+      // send album data to client
       res.status(200).json(album);
    } catch (error) {
-      console.error(error);
+      console.error('Error fetching event:', error);
       res.status(500).json({ message: 'Error fetching album', error: error.message });
    }
 };
 
-// function to update a album by id - UPDATE ALBUM
+// function to update a album by id - UPDATE ALBUM BY ID
 export const updateAlbumById = async (req, res) => {
-   // convert a string to integer
+   // convert a string to integer and preform validation.
    const id = parseInt(req.params.id, 10);
+
+   // check if 'id' is a valid integer
+   if (isNaN(id)) {
+      return res.status(400).json({ message: 'Invalid album ID' });
+   }
 
    try {
       const updatedAlbum = await Album.update(req.body, {
@@ -78,15 +92,20 @@ export const updateAlbumById = async (req, res) => {
 
       res.status(200).json({ message: 'Album updated successfully', album: updatedAlbum });
    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error updating album', error: error.message });
+      console.error('Error updating album', error);
+      res.status(500).json({ message: 'Error updating album', error });
    }
 };
 
 // function to delete album by id - DELETE ALBUM
 export const deleteAlbumById = async (req, res) => {
-   // convert string to integer
+   // convert a string to integer and preform validation.
    const id = parseInt(req.params.id, 10);
+
+   // check if 'id' is a valid integer
+   if (isNaN(id)) {
+      return res.status(400).json({ message: 'Invalid album ID' });
+   }
 
    try {
       const album = await Album.destroy({
@@ -97,13 +116,13 @@ export const deleteAlbumById = async (req, res) => {
 
       // if no album is found
       if (!album) {
-         res.status(404).send('No Album found');
+         res.status(404).json({ message: 'No album with that ID was found.');
       }
 
-      res.status(201).send('Successfullly deleted album.');
+      res.status(201).json({ message: 'Successfullly deleted album.' });
    } catch (error) {
-      console.error(error);
-      res.status(500).send(error);
+      console.error('Error deleting event.', error);
+      res.status(500).json({ message: 'Internal Server Error', error);
    }
 };
 
@@ -112,10 +131,11 @@ export const getAlbumCount = async (req, res) => {
    try {
       const albumCount = await Album.count({});
 
-      res.send(albumCount);
+      // send album count to client
+      res.status(200).json(albumCount);
    } catch (error) {
-      console.error(error);
-      res.status(500).send(error);
+      console.error('Error fetching album count', error);
+      res.status(500).json({ message: 'Internal Server Error', error);
    }
 };
 
@@ -129,12 +149,13 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
       });
 
       if (!recentAlbums) {
-         return res.status(404).send('No albums found.');
+         return res.status(404).json({ message: 'No recent albums found.'});
       }
 
+      // send recently created albums to client
       res.status(200).json(recentAlbums);
    } catch (error) {
-      console.error(error);
-      res.status(500).send(error);
+      console.error('Error fetching recent albums.', error);
+      res.status(500).json({ message: 'Internal Server Error', error });
    }
 };
