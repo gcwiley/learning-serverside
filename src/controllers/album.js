@@ -1,6 +1,7 @@
 import { Album } from '../models/album.js';
+import { Op } from 'sequelize';
 
-// Function to create a new album - NEW ALBUM
+// function to create a new album - NEW ALBUM
 export const newAlbum = async (req, res) => {
    try {
       // Builds a new model instance and calls save on it.
@@ -13,14 +14,22 @@ export const newAlbum = async (req, res) => {
          genre: req.body.genre,
          summary: req.body.summary,
       });
-      res.status(201).json({ message: 'Successfully added album to database', album });
+      res.status(201).json({
+         success: true,
+         message: 'Successfully added album to database',
+         album,
+      });
    } catch (error) {
       console.error('Error creating album:', error);
-      res.status(400).json({ message: 'Error creating album', error: error.message });
+      res.status(400).json({
+         success: false,
+         message: 'Error creating album',
+         error: error.message,
+      });
    }
 };
 
-// Function to fetch all albums from database - ALL ALBUMS
+// function to fetch all albums from database - GET ALL ALBUMS
 export const getAlbums = async (req, res) => {
    try {
       // retrieve all albums ordered by date (most recent first_
@@ -87,11 +96,15 @@ export const getPaginatedAlbums = async (req, res) => {
       res.status(200).json(paginationResult);
    } catch (error) {
       console.error('Error in fetching paginated data:', error);
-      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+      res.status(500).json({
+         success: false,
+         message: 'Internal Server Error',
+         error: error.message,
+      });
    }
 };
 
-// Function to fetch invidual album by id - ALBUM BY ID
+// function to fetch invidual album by id - GET ALBUM BY ID
 export const getAlbumById = async (req, res) => {
    try {
       // find the album by primary key (assumes 'id' is the primary key in the album model)
@@ -99,14 +112,20 @@ export const getAlbumById = async (req, res) => {
 
       // if album is not found, handle the empty result
       if (!album) {
-         return res.status(404).json({ message: 'No album with that ID was found.' });
+         return res
+            .status(404)
+            .json({ successs: false, message: 'No album with that ID was found.' });
       }
 
       // send album data to client
       res.status(200).json(album);
    } catch (error) {
       console.error('Error fetching event:', error);
-      res.status(500).json({ message: 'Error fetching album', error: error.message });
+      res.status(500).json({
+         success: false,
+         message: 'Error fetching album.',
+         error: error.message,
+      });
    }
 };
 
@@ -128,32 +147,44 @@ export const updateAlbumById = async (req, res) => {
          summary: req.body.summary,
       });
 
-      res.status(200).json({ message: 'Album updated successfully.', album: updatedAlbum });
+      res.status(200).json({
+         success: true,
+         message: 'Album updated successfully.',
+         album: updatedAlbum,
+      });
    } catch (error) {
       console.error('Error updating album.', error);
-      res.status(500).json({ message: 'Error updating album.', error: error.message });
+      res.status(500).json({
+         success: false,
+         message: 'Error updating album.',
+         error: error.message,
+      });
    }
 };
 
 // function to delete album by id - DELETE ALBUM BY ID
 export const deleteAlbumById = async (req, res) => {
    try {
-      const album = await Album.findByPk(req.parama.id);
+      const album = await Album.findByPk(req.params.id);
 
       // if no album is found
       if (!album) {
-         res.status(404).json({ message: 'No album with that ID was found.' });
+         res.status(404).json({ success: false, message: 'No album with that ID was found.' });
       }
 
       await album.destroy();
-      res.status(200).json({ message: 'Album deleted successfully.'});
+      res.status(200).json({ success: true, message: 'Album deleted successfully.' });
    } catch (error) {
-      console.error('Error deleting event.', error);
-      res.status(500).json({ message: 'Error deleting album', error: error.message });
+      console.error('Error deleting album:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Error deleting album.',
+         error: error.message,
+      });
    }
 };
 
-// function to count all albums in database - ALBUM COUNT
+// function to count all albums in database - GET ALBUM COUNT
 export const getAlbumCount = async (req, res) => {
    try {
       const albumCount = await Album.count({});
@@ -161,12 +192,16 @@ export const getAlbumCount = async (req, res) => {
       // send album count to client
       res.status(200).json({ count: albumCount });
    } catch (error) {
-      console.error('Error fetching album count', error);
-      res.status(500).json({ message: 'Error fetching album count', error: error.message });
+      console.error('Error fetching album count:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Error fetching album count.',
+         error: error.message,
+      });
    }
 };
 
-// function to get the 10 most recently created albums - RECENT ALBUMS
+// function to get the 10 most recently created albums - GET RECENT ALBUMS
 export const getRecentlyCreatedAlbums = async (req, res) => {
    try {
       // finds 10 most recent albums and sorts by 'createdAt' in descending order
@@ -176,13 +211,58 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
       });
 
       if (recentAlbums.length === 0) {
-         return res.status(404).json({ message: 'No recent albums found.' });
+         return res.status(404).json({ success: false, message: 'No recent albums found.' });
       }
 
       // send recently created albums to client
       res.status(200).json(recentAlbums);
    } catch (error) {
-      console.error('Error fetching recent albums.', error);
-      res.status(500).json({ message: 'Error fetching recent albums', error: error.message });
+      console.error('Error fetching recent albums:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Error fetching recent albums.',
+         error: error.message,
+      });
+   }
+};
+
+// function to search for albums by title, artist, or genre - SEARCH ALBUMS
+export const searchAlbums = async (req, res) => {
+   const { query } = req.query;
+
+   // validate query parameters
+   if (!query) {
+      return res
+         .status(400)
+         .json({ success: false, message: 'Query parameter is required for searching albums.' });
+   }
+
+   try {
+      const albums = await Album.findAll({
+         where: {
+            // uses the Op.or operator to search for albums that match any of the search criteria.
+            [Op.or]: [
+               // uses the 'Op.iLike' operator for case-insensitive search
+               { title: { [Op.iLike]: `%${query}` } },
+               { artist: { [Op.iLike]: `%${query}` } },
+               { genre: { [Op.iLike]: `%${query}` } },
+            ],
+         },
+      });
+
+      if (albums.length === 0) {
+         return res
+            .status(404)
+            .json({ success: false, message: 'No albums found matching your search query.' });
+      }
+
+      res.status(200).json(albums);
+   } catch (error) {
+      console.error('Error searching albums:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Error searching albums.',
+         error: error.message,
+      });
    }
 };
