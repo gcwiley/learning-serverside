@@ -46,7 +46,11 @@ export const getAlbums = async (req, res) => {
       res.status(200).json(albums);
    } catch (error) {
       console.error('Error fetching albums:', error);
-      res.status(500).json({ message: 'Error fetching albums', error: error.message });
+      res.status(500).json({
+         success: false,
+         message: 'Error fetching albums',
+         error: error.message,
+      });
    }
 };
 // function to fetch all albums from the database - GET ALBUMS PAGINATION
@@ -114,7 +118,7 @@ export const getAlbumById = async (req, res) => {
       if (!album) {
          return res
             .status(404)
-            .json({ successs: false, message: 'No album with that ID was found.' });
+            .json({ success: false, message: 'No album with that ID was found.' });
       }
 
       // send album data to client
@@ -137,7 +141,7 @@ export const updateAlbumById = async (req, res) => {
       if (!album) {
          return res.status(404).json({ message: 'No album with that ID was found.' });
       }
-      const updatedAlbum = await Album.update({
+      const updatedAlbum = await album.update({
          title: req.body.title,
          artist: req.body.artist,
          releaseDate: new Date(req.body.releaseDate),
@@ -190,7 +194,7 @@ export const getAlbumCount = async (req, res) => {
       const albumCount = await Album.count({});
 
       // send album count to client
-      res.status(200).json({ count: albumCount });
+      res.status(200).json({ success: true, count: albumCount });
    } catch (error) {
       console.error('Error fetching album count:', error);
       res.status(500).json({
@@ -215,7 +219,7 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
       }
 
       // send recently created albums to client
-      res.status(200).json(recentAlbums);
+      res.status(200).json({ success: true, recentAlbums });
    } catch (error) {
       console.error('Error fetching recent albums:', error);
       res.status(500).json({
@@ -243,9 +247,9 @@ export const searchAlbums = async (req, res) => {
             // uses the Op.or operator to search for albums that match any of the search criteria.
             [Op.or]: [
                // uses the 'Op.iLike' operator for case-insensitive search
-               { title: { [Op.iLike]: `%${query}` } },
-               { artist: { [Op.iLike]: `%${query}` } },
-               { genre: { [Op.iLike]: `%${query}` } },
+               { title: { [Op.iLike]: `%${query}%` } },
+               { artist: { [Op.iLike]: `%${query}%` } },
+               { genre: { [Op.iLike]: `%${query}%` } },
             ],
          },
       });
@@ -256,7 +260,7 @@ export const searchAlbums = async (req, res) => {
             .json({ success: false, message: 'No albums found matching your search query.' });
       }
 
-      res.status(200).json(albums);
+      res.status(200).json({ success: true, albums });
    } catch (error) {
       console.error('Error searching albums:', error);
       res.status(500).json({
