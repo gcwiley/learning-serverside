@@ -17,9 +17,9 @@ const username = process.env.USER_NAME;
 const password = process.env.PASSWORD;
 
 // checks for presence of required environment variables and throws error if any are missing.
-if (!database || !username || !password || !host || !port) {
-   throw new Error('Missing one or more required environment variables for database connection.');
-}
+// if (!database || !username || !password) {
+//    throw new Error('Missing one or more required environment variables for database connection.');
+// }
 
 // create the sequelize instance with database name, username, and password
 const sequelize = new Sequelize(database, username, password, {
@@ -50,7 +50,7 @@ async function testConnection() {
       console.error(chalk.red('\n', `Unable to connect to the database: ${error.message}`, '\n'));
       throw error;
    }
-};
+}
 
 // call the function to test the connection
 testConnection();

@@ -1,4 +1,3 @@
-// import the hero model
 import { Hero } from '../models/hero.js';
 
 // function to create a new hero - NEW HERO

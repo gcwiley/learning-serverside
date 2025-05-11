@@ -23,6 +23,7 @@ admin.initializeApp({
 // import the routers
 import { heroRouter } from './routes/hero.js';
 import { albumRouter } from './routes/album.js';
+// import { postRouter } from './routes/post.js';
 
 // create an express instance
 const app = express();
@@ -43,6 +44,7 @@ app.use(logger('dev'));
 // register the routers
 app.use(heroRouter);
 app.use(albumRouter);
+// app.use(postRouter);
 
 // handle all other routes with angular app - returns angular app
 app.get('*', (req, res) => {

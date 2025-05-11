@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 // function to create a new album - NEW ALBUM
 export const newAlbum = async (req, res) => {
    try {
-      // Builds a new model instance and calls save on it.
+      // builds a new model instance and calls save on it.
       const album = await Album.create({
          title: req.body.title,
          artist: req.body.artist,
@@ -14,16 +14,12 @@ export const newAlbum = async (req, res) => {
          genre: req.body.genre,
          summary: req.body.summary,
       });
-      res.status(201).json({
-         success: true,
-         message: 'Successfully added album to database',
-         album,
-      });
+      res.status(201).json(album);
    } catch (error) {
       console.error('Error creating album:', error);
       res.status(400).json({
          success: false,
-         message: 'Error creating album',
+         message: 'Error creating album.',
          error: error.message,
       });
    }
@@ -32,14 +28,14 @@ export const newAlbum = async (req, res) => {
 // function to fetch all albums from database - GET ALL ALBUMS
 export const getAlbums = async (req, res) => {
    try {
-      // retrieve all albums ordered by date (most recent first_
+      // retrieve all albums ordered by date (most recent first)
       const albums = await Album.findAll({
          order: [['releaseDate', 'DESC']], // order albums by date
       });
 
       // if no albums are found, handle the empty result
       if (albums.length === 0) {
-         return res.status(404).json({ message: 'No albums found' });
+         return res.status(404).json({ message: 'No albums found.' });
       }
 
       // send the list of albums to the client
@@ -48,7 +44,7 @@ export const getAlbums = async (req, res) => {
       console.error('Error fetching albums:', error);
       res.status(500).json({
          success: false,
-         message: 'Error fetching albums',
+         message: 'Error fetching albums.',
          error: error.message,
       });
    }
@@ -124,7 +120,7 @@ export const getAlbumById = async (req, res) => {
       // send album data to client
       res.status(200).json(album);
    } catch (error) {
-      console.error('Error fetching event:', error);
+      console.error('Error fetching album:', error);
       res.status(500).json({
          success: false,
          message: 'Error fetching album.',
@@ -151,11 +147,7 @@ export const updateAlbumById = async (req, res) => {
          summary: req.body.summary,
       });
 
-      res.status(200).json({
-         success: true,
-         message: 'Album updated successfully.',
-         album: updatedAlbum,
-      });
+      res.status(200).json(updatedAlbum);
    } catch (error) {
       console.error('Error updating album.', error);
       res.status(500).json({
@@ -194,7 +186,7 @@ export const getAlbumCount = async (req, res) => {
       const albumCount = await Album.count({});
 
       // send album count to client
-      res.status(200).json({ success: true, count: albumCount });
+      res.status(200).json(albumCount);
    } catch (error) {
       console.error('Error fetching album count:', error);
       res.status(500).json({
@@ -219,7 +211,7 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
       }
 
       // send recently created albums to client
-      res.status(200).json({ success: true, recentAlbums });
+      res.status(200).json(recentAlbums);
    } catch (error) {
       console.error('Error fetching recent albums:', error);
       res.status(500).json({
@@ -260,7 +252,7 @@ export const searchAlbums = async (req, res) => {
             .json({ success: false, message: 'No albums found matching your search query.' });
       }
 
-      res.status(200).json({ success: true, albums });
+      res.status(200).json(albums);
    } catch (error) {
       console.error('Error searching albums:', error);
       res.status(500).json({

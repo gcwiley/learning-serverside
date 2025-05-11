@@ -20,7 +20,7 @@ router.post('/api/albums', newAlbum);
 // route handler for fetching all albums - GET ALL ALBUMS
 router.get('/api/albums', getAlbums);
 
-// route handler to fetch individual albums by ID
+// route handler to fetch individual album by ID
 router.get('/api/albums/:id', getAlbumById);
 
 // route handle to update an existing album - UPDATE ALBUM

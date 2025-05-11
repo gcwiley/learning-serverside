@@ -10,7 +10,7 @@ const Album = sequelize.define(
          allowNull: false,
          validate: {
             notEmpty: true,
-         }
+         },
       },
       artist: {
          type: DataTypes.STRING,
@@ -18,10 +18,10 @@ const Album = sequelize.define(
       },
       releaseDate: {
          type: DataTypes.DATE,
-         allowNull: false, // ensure that date is not null
+         allowNull: false, // ensures the date is not null
          validate: {
             isDate: true, // ensures a valid date is given
-         }
+         },
       },
       label: {
          type: DataTypes.STRING,
@@ -36,7 +36,7 @@ const Album = sequelize.define(
          allowNull: false,
       },
       summary: {
-         type: DataTypes.STRING(1000),
+         type: DataTypes.STRING,
          allowNull: false,
       },
    },
@@ -48,6 +48,7 @@ const Album = sequelize.define(
          },
          {
             fields: ['releaseDate'], // index on date for efficient querying by release date
+         },
       ],
    }
 );
