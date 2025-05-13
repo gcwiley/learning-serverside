@@ -44,6 +44,8 @@ const Post = sequelize.define(
    },
    {
       timestamps: true,
+      tableName: 'posts',
+      underscored: true,
       indexes: [
          {
             fields: ['author', 'category'], // adds a composite index on the 'author' column
@@ -54,16 +56,6 @@ const Post = sequelize.define(
       ],
    }
 );
-
-// sync the model with the database
-(async () => {
-   try {
-      await Post.sync();
-      console.log('Post model synced successfully');
-   } catch (error) {
-      console.error('Error syncing Post model:', error);
-   }
-})();
 
 // export the post model
 export { Post };

@@ -7,6 +7,7 @@ const Hero = sequelize.define(
    {
       name: {
          type: DataTypes.STRING,
+         unique: true,
          allowNull: false,
       },
       age: {
@@ -29,12 +30,14 @@ const Hero = sequelize.define(
          allowNull: false,
       },
       biography: {
-         type: DataTypes.STRING(1000),
+         type: DataTypes.TEXT,
          allowNull: false,
       },
    },
    {
       timestamps: true,
+      tableName: 'heroes',
+      underscored: true,
       indexes: [
          {
             fields: ['name', 'homePlanet'],
@@ -42,16 +45,6 @@ const Hero = sequelize.define(
       ],
    }
 );
-
-// sync the hero model
-(async () => {
-   try {
-      await Hero.sync();
-      console.log('Hero model synced successfully');
-   } catch (error) {
-      console.error('Error syncing Hero model:', error);
-   }
-})();
 
 // export the hero model
 export { Hero };

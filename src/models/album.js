@@ -8,12 +8,14 @@ const Album = sequelize.define(
       title: {
          type: DataTypes.STRING,
          allowNull: false,
+         unique: true,
          validate: {
             notEmpty: true,
          },
       },
       artist: {
          type: DataTypes.STRING,
+         unique: true,
          allowNull: false,
       },
       releaseDate: {
@@ -36,12 +38,14 @@ const Album = sequelize.define(
          allowNull: false,
       },
       summary: {
-         type: DataTypes.STRING,
+         type: DataTypes.TEXT,
          allowNull: false,
       },
    },
    {
       timestamps: true,
+      tableName: 'albums',
+      underscored: true,
       indexes: [
          {
             fields: ['artist', 'genre'], // adds a composite index on the 'artist' and 'genre' columns
@@ -52,16 +56,6 @@ const Album = sequelize.define(
       ],
    }
 );
-
-// sync the model with the database
-(async () => {
-   try {
-      await Album.sync();
-      console.log('Album model synced successfully');
-   } catch (error) {
-      console.error('Error syncing Album model:', error);
-   }
-})();
 
 // export the album model
 export { Album };

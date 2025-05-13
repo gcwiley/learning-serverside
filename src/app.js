@@ -17,13 +17,13 @@ import { serviceAccount } from '../credentials/service-account.js';
 
 // initialize the firebase SDK
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+   credential: admin.credential.cert(serviceAccount),
 });
 
 // import the routers
 import { heroRouter } from './routes/hero.js';
 import { albumRouter } from './routes/album.js';
-// import { postRouter } from './routes/post.js';
+import { postRouter } from './routes/post.js';
 
 // create an express instance
 const app = express();
@@ -44,15 +44,21 @@ app.use(logger('dev'));
 // register the routers
 app.use(heroRouter);
 app.use(albumRouter);
-// app.use(postRouter);
+app.use(postRouter);
+
+// global error handler - to catch and response to error gracefully
+app.use((error, req, res) => {
+   console.error(error.stack);
+   res.status(500).json({ error: 'Internal Server Error' });
+});
 
 // handle all other routes with angular app - returns angular app
 app.get('*', (req, res) => {
-  // send back the angular index.html file
-  res.sendFile(path.join(__dirname, './dist/learnng-angular-material/browser', 'index.html'));
+   // send back the angular index.html file
+   res.sendFile(path.join(__dirname, './dist/learning-angular-material/browser', 'index.html'));
 });
 
 // start the server
 app.listen(port, () => {
-  console.log(chalk.blue('\n', `Successfully started server running on port ${port}`, '\n'));
+   console.log(chalk.blue('\n', `Successfully started server running on port ${port}`, '\n'));
 });

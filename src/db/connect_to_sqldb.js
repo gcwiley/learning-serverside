@@ -12,20 +12,25 @@ dotenv.config({
 });
 
 // get required environment variables
-const database = process.env.DATABASE_NAME;
-const username = process.env.USER_NAME;
-const password = process.env.PASSWORD;
+const database = process.env.PGDATABASE;
+const username = process.env.PGUSER;
+const password = process.env.PGPASSWORD;
+const host = process.env.PGHOST;
+const port = process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432;
 
 // checks for presence of required environment variables and throws error if any are missing.
-// if (!database || !username || !password) {
-//    throw new Error('Missing one or more required environment variables for database connection.');
-// }
+if (!database || !username || !password) {
+   throw new Error('Missing one or more required environment variables for database connection.');
+}
 
 // create the sequelize instance with database name, username, and password
 const sequelize = new Sequelize(database, username, password, {
-   host: 'localhost',
+   host,
    dialect: 'postgres',
-   port: 5432,
+   dialectOptions: {
+      ssl: true,
+   },
+   port,
    pool: {
       max: 5, // max number of connections
       min: 0, // min number of connections

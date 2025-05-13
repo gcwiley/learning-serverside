@@ -14,7 +14,11 @@ export const newAlbum = async (req, res) => {
          genre: req.body.genre,
          summary: req.body.summary,
       });
-      res.status(201).json(album);
+      res.status(201).json({
+         success: true,
+         message: 'Successfully created new album.',
+         data: album,
+      });
    } catch (error) {
       console.error('Error creating album:', error);
       res.status(400).json({
@@ -134,6 +138,7 @@ export const updateAlbumById = async (req, res) => {
    try {
       const album = await Album.findByPk(req.params.id);
 
+      // if no album is found
       if (!album) {
          return res.status(404).json({ message: 'No album with that ID was found.' });
       }
@@ -186,7 +191,11 @@ export const getAlbumCount = async (req, res) => {
       const albumCount = await Album.count({});
 
       // send album count to client
-      res.status(200).json(albumCount);
+      res.status(200).json({
+         success: true,
+         message: 'Successfully fetched Album count.',
+         data: albumCount,
+      });
    } catch (error) {
       console.error('Error fetching album count:', error);
       res.status(500).json({
@@ -252,7 +261,7 @@ export const searchAlbums = async (req, res) => {
             .json({ success: false, message: 'No albums found matching your search query.' });
       }
 
-      res.status(200).json(albums);
+      res.status(200).json({ success: true, message: 'Album search results', data: albums });
    } catch (error) {
       console.error('Error searching albums:', error);
       res.status(500).json({
