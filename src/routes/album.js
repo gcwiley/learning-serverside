@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-// create a new router
+
 const router = new Router();
 
-// import the album controller functions
+// album controller functions
 import {
   newAlbum,
   getAlbums,
@@ -30,10 +30,10 @@ router.patch('/api/albums/:id', updateAlbumById);
 router.delete('/api/albums/:id', deleteAlbumById);
 
 // router hanlder to count all albums in database - COUNT ALL ALBUMS
-router.get('/api/album-count', getAlbumCount);
+router.get('/api/albums/count', getAlbumCount);
 
 // route handler to get the last 5 albums created - GET 5 RECENT ALBUMS
-router.get('/api/recent-albums', getRecentlyCreatedAlbums);
+router.get('/api/albums/recent', getRecentlyCreatedAlbums);
 
 // export the router
 export { router as albumRouter };

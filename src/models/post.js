@@ -5,6 +5,7 @@ import { sequelize } from '../db/connect_to_sqldb.js';
 const Post = sequelize.define(
    'Post',
    {
+      // add id field
       // title
       title: {
          type: DataTypes.STRING,
@@ -44,8 +45,6 @@ const Post = sequelize.define(
    },
    {
       timestamps: true,
-      tableName: 'posts',
-      underscored: true,
       indexes: [
          {
             fields: ['author', 'category'], // adds a composite index on the 'author' column

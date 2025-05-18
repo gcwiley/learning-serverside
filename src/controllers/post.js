@@ -13,7 +13,7 @@ export const newPost = async (req, res) => {
          favorite: req.body.favorite,
          date: new Date(req.body.date),
       });
-      res.status(201).json(post);
+      res.status(201).json({ success: true, message: 'Insert text here.', data: post });
    } catch (error) {
       console.error('Error creating post:', error);
       res.status(400).json({

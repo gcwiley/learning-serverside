@@ -1,9 +1,8 @@
 import express from 'express';
 
-// create a new router
 const router = new express.Router();
 
-// import the hero controller functions
+// hero controller functions
 import {
   newHero,
   getHeroes,
@@ -30,10 +29,10 @@ router.patch('/api/heroes/:id', updateHeroById);
 router.delete('/api/heroes/:id', deleteHeroById);
 
 // router handler to count all heroes in database - COUNT ALL HEROES
-router.get('/api/hero-count', getHeroCount);
+router.get('/api/heroes/count', getHeroCount);
 
 // router handler to get the last 5 heroes created - GET 5 RECENT HEROES
-router.get('/api/recent-heroes', getRecentlyCreatedHeroes);
+router.get('/api/heroes/recent', getRecentlyCreatedHeroes);
 
 // export the router to be used
 export { router as heroRouter };

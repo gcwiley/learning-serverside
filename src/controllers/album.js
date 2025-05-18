@@ -43,7 +43,11 @@ export const getAlbums = async (req, res) => {
       }
 
       // send the list of albums to the client
-      res.status(200).json(albums);
+      res.status(200).json({
+         success: true,
+         message: 'Successfully fetched all albums',
+         data: albums,
+      });
    } catch (error) {
       console.error('Error fetching albums:', error);
       res.status(500).json({
@@ -152,7 +156,7 @@ export const updateAlbumById = async (req, res) => {
          summary: req.body.summary,
       });
 
-      res.status(200).json(updatedAlbum);
+      res.status(200).json({ data: updatedAlbum });
    } catch (error) {
       console.error('Error updating album.', error);
       res.status(500).json({

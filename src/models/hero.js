@@ -36,8 +36,6 @@ const Hero = sequelize.define(
    },
    {
       timestamps: true,
-      tableName: 'heroes',
-      underscored: true,
       indexes: [
          {
             fields: ['name', 'homePlanet'],

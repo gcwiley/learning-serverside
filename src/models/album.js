@@ -44,8 +44,6 @@ const Album = sequelize.define(
    },
    {
       timestamps: true,
-      tableName: 'albums',
-      underscored: true,
       indexes: [
          {
             fields: ['artist', 'genre'], // adds a composite index on the 'artist' and 'genre' columns
