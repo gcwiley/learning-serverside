@@ -34,5 +34,4 @@ router.get('/api/heroes/count', getHeroCount);
 // router handler to get the last 5 heroes created - GET 5 RECENT HEROES
 router.get('/api/heroes/recent', getRecentlyCreatedHeroes);
 
-// export the router to be used
 export { router as heroRouter };

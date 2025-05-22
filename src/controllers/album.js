@@ -125,8 +125,8 @@ export const getAlbumById = async (req, res) => {
             .json({ success: false, message: 'No album with that ID was found.' });
       }
 
-      // send album data to client
-      res.status(200).json(album);
+      // send album data back to client
+      res.status(200).json({ success: true, message: 'Successfully fetched album', data: album });
    } catch (error) {
       console.error('Error fetching album:', error);
       res.status(500).json({

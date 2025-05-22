@@ -5,39 +5,51 @@ import { sequelize } from '../db/connect_to_sqldb.js';
 const Post = sequelize.define(
    'Post',
    {
-      // add id field
-      // title
+      // id - unique identifer (UUID)
+      id: {
+         type: DataTypes.UUID,
+         defaultValue: DataTypes.UUIDV4,
+         primaryKey: true,
+      },
+      // title of post
       title: {
          type: DataTypes.STRING,
          allowNull: false,
+         unique: true, // prevent duplicate titles
          validate: {
             notEmpty: true,
+            len: [5, 255],
          },
       },
-      // author
+      // author of post
       author: {
          type: DataTypes.STRING,
          allowNull: false,
       },
-      // body
+      // body of post
       body: {
          type: DataTypes.TEXT,
          allowNull: false,
+         validate: {
+            len: [10]
+         }
       },
-      // category
+      // category - for PostgreSQL only
       category: {
-         type: DataTypes.STRING,
+         type: DataTypes.ARRAY(DataTypes.STRING), // array
          allowNull: false,
+         validate: { notEmpty: true },
       },
       // favorite
       favorite: {
          type: DataTypes.BOOLEAN,
-         defaultValue: false, // provide a default value
+         defaultValue: false, // provide a default value of false
       },
       // date
       date: {
          type: DataTypes.DATE,
          allowNull: false, // ensures the date is not null
+         defaultValue: DataTypes.NOW, // set the default date to now
          validate: {
             isDate: true, // ensures a valid date is given
          },
@@ -56,5 +68,4 @@ const Post = sequelize.define(
    }
 );
 
-// export the post model
 export { Post };

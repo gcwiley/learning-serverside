@@ -26,5 +26,4 @@ router.get('/api/posts/count', getPostCount);
 // route handler to get the last 5 albums created - GET 5 RECENT POSTS
 router.get('/api/posts/recent', getRecentlyCreatedPosts);
 
-// export the router
 export { router as postRouter };

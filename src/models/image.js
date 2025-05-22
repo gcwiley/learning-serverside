@@ -49,10 +49,8 @@ const Image = sequelize.define(
       },
    },
    {
-      // add 'createdAt' and 'updatedAt' automatically
       timestamps: true,
    }
 );
 
-// export the image model
 export { Image };

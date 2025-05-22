@@ -5,6 +5,13 @@ import { sequelize } from '../db/connect_to_sqldb.js';
 const Album = sequelize.define(
    'Album',
    {
+      // id - unique identifier (UUID)
+      id: {
+         type: DataTypes.UUID,
+         defaultValue: DataTypes.UUIDV4,
+         primaryKey: true,
+      },
+      // title
       title: {
          type: DataTypes.STRING,
          allowNull: false,
@@ -13,11 +20,13 @@ const Album = sequelize.define(
             notEmpty: true,
          },
       },
+      // artist
       artist: {
          type: DataTypes.STRING,
          unique: true,
          allowNull: false,
       },
+      // release date
       releaseDate: {
          type: DataTypes.DATE,
          allowNull: false, // ensures the date is not null
@@ -25,21 +34,36 @@ const Album = sequelize.define(
             isDate: true, // ensures a valid date is given
          },
       },
+      // label
       label: {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      // studio
       studio: {
          type: DataTypes.STRING,
          allowNull: false,
       },
+      // studio (array)
       genre: {
-         type: DataTypes.STRING,
+         type: DataTypes.ARRAY(DataTypes.STRING),
          allowNull: false,
+         validate: {
+            notEmpty: true,
+         }
       },
+      // summary
       summary: {
          type: DataTypes.TEXT,
          allowNull: false,
+      },
+      // cover image
+      coverImageUrl: {
+         type: DataTypes.STRING,
+         allowNull: true,
+         validate: {
+            isUrl: true,
+         },
       },
    },
    {
@@ -55,5 +79,4 @@ const Album = sequelize.define(
    }
 );
 
-// export the album model
 export { Album };
