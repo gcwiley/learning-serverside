@@ -76,7 +76,7 @@ export const getHeroById = async (req, res) => {
    }
 };
 
-// function to update a hero by id - UPDATE HERO
+// function to update a hero by id - UPDATE HERO BY ID
 export const updateHeroById = async (req, res) => {
    try {
       const hero = await Hero.findByPk(req.params.id);
@@ -160,7 +160,7 @@ export const getRecentlyCreatedHeroes = async (req, res) => {
       if (recentHeroes.length === 0) {
          return res.status(404).json('no recent heroes');
       }
-      // send recently created heroes to client
+      // send recently created heroes to client - fix this
       res.status(200).json(recentHeroes);
    } catch (error) {
       console.error('Error fetching recent heroes:', error);

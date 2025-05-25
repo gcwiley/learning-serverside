@@ -265,7 +265,7 @@ export const searchAlbums = async (req, res) => {
             .json({ success: false, message: 'No albums found matching your search query.' });
       }
 
-      res.status(200).json({ success: true, message: 'Album search results', data: albums });
+      res.status(200).json({ success: true, message: 'Album search results.', data: albums });
    } catch (error) {
       console.error('Error searching albums:', error);
       res.status(500).json({

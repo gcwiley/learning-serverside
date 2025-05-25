@@ -31,8 +31,8 @@ const Post = sequelize.define(
          type: DataTypes.TEXT,
          allowNull: false,
          validate: {
-            len: [10]
-         }
+            len: [10, 5000],
+         },
       },
       // category - for PostgreSQL only
       category: {
@@ -44,6 +44,19 @@ const Post = sequelize.define(
       favorite: {
          type: DataTypes.BOOLEAN,
          defaultValue: false, // provide a default value of false
+      },
+      // tags
+      tags: {
+         type: DataTypes.ARRAY(DataTypes.STRING), // array
+         allowNull: true,
+      },
+      // excerpt 
+      excerpt: {
+         type: DataTypes.STRING,
+         allowNull: true,
+         validate: {
+            len: [0, 255],
+         },
       },
       // date
       date: {
