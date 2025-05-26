@@ -11,8 +11,8 @@ const Image = sequelize.define(
          defaultValue: DataTypes.UUIDV4,
          primaryKey: true,
       },
-      // name - orginal fire name
-      name: {
+      // name - orginal file name
+      originalName: {
          type: DataTypes.STRING,
          allowNull: false,
       },
@@ -20,6 +20,7 @@ const Image = sequelize.define(
       url: {
          type: DataTypes.STRING,
          allowNull: false,
+         unique: true,
          validate: {
             isUrl: true,
          },
@@ -31,7 +32,7 @@ const Image = sequelize.define(
       },
       // size = file size in bytes
       size: {
-         type: DataTypes.STRING,
+         type: DataTypes.INTEGER,
          allowNull: false,
          validate: {
             min: 0
