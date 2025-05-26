@@ -160,8 +160,8 @@ export const getRecentlyCreatedHeroes = async (req, res) => {
       if (recentHeroes.length === 0) {
          return res.status(404).json('no recent heroes');
       }
-      // send recently created heroes to client - fix this
-      res.status(200).json(recentHeroes);
+      // send recently created heroes to client
+      res.status(200).json({ success: true, message: 'Successfully fetched recent heroes.', data: recentHeroes});
    } catch (error) {
       console.error('Error fetching recent heroes:', error);
       res.status(500).json({

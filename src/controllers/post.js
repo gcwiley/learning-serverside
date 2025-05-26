@@ -13,7 +13,11 @@ export const newPost = async (req, res) => {
          favorite: req.body.favorite,
          date: new Date(req.body.date),
       });
-      res.status(201).json({ success: true, message: 'Successfully created new post.', data: post });
+      res.status(201).json({
+         success: true,
+         message: 'Successfully created new post.',
+         data: post,
+      });
    } catch (error) {
       console.error('Error creating post:', error);
       res.status(400).json({
@@ -37,8 +41,12 @@ export const getPosts = async (req, res) => {
          return res.status(404).json({ message: 'No posts found.' });
       }
 
-      // send the list of posts to the client - fix this
-      res.status(200).json(posts);
+      // send the list of posts to the client
+      res.status(200).json({
+         success: true,
+         message: 'Successfully fetched all posts.',
+         data: posts,
+      });
    } catch (error) {
       console.error('Error fetching posts:', error);
       res.status(500).json({
@@ -62,8 +70,8 @@ export const getPostById = async (req, res) => {
             .json({ success: false, message: 'No post with that ID was found.' });
       }
 
-      // send post data to client - fix this
-      res.status(200).json(post);
+      // send post data to client
+      res.status(200).json({ success: true, message: 'Successfully fetched post.', data: post });
    } catch (error) {
       console.error('Error fetching post:', error);
       res.status(500).json({
@@ -74,7 +82,7 @@ export const getPostById = async (req, res) => {
    }
 };
 
-// function to update a post by id - UPDATE POST fix this
+// function to update a post by id - UPDATE POST BY ID
 export const updatePostById = async (req, res) => {
    try {
       const post = await Post.findByPk(req.params.id);
@@ -102,7 +110,7 @@ export const updatePostById = async (req, res) => {
    }
 };
 
-// function to delete a post by ID - DELETE POST fix this
+// function to delete a post by ID - DELETE POST BY ID
 export const deletePostById = async (req, res) => {
    try {
       const post = await Post.findByPk(req.params.id);
@@ -129,8 +137,8 @@ export const getPostCount = async (req, res) => {
    try {
       const postCount = await Post.count({});
 
-      // send post count to client - fix this
-      res.status().json(postCount);
+      // send post count to client
+      res.status().json({ success: true, message: 'Post count', data: postCount });
    } catch (error) {
       console.error('Error fetching post count:', error);
       res.status(500).json({
@@ -150,7 +158,7 @@ export const getRecentlyCreatedPosts = async (req, res) => {
       if (!mostRecentPosts) {
          return res.status(404).send();
       }
-      // fix 
+      // fix
       res.send(mostRecentPosts);
    } catch (error) {
       res.status(500).send(error);

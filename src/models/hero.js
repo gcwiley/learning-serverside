@@ -17,26 +17,18 @@ const Hero = sequelize.define(
          unique: true,
          allowNull: false,
       },
-      // age
-      age: {
-         type: DataTypes.INTEGER,
-         allowNull: false,
-      },
-      // date of birth
-      dateOfBirth: {
-         type: DataTypes.DATE,
-         allowNull: false, // ensure the date is not null
-         validate: {
-            isDate: true, // ensures a valid date is given
-         },
-      },
-      // home planet
-      homePlanet: {
+      // alter ego
+      alterEgo: {
          type: DataTypes.STRING,
          allowNull: false,
       },
-      // superpowers
-      superPowers: {
+      // place of orgin
+      placeOfOrgin: {
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
+      // abilities
+      abilities: {
          type: DataTypes.ARRAY(DataTypes.STRING), // array
          allowNull: false,
       },

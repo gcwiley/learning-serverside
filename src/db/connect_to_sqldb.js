@@ -19,7 +19,7 @@ const host = process.env.PGHOST;
 const port = process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432;
 
 // checks for presence of required environment variables and throws error if any are missing.
-if (!database || !username || !password || host || port) {
+if (!database || !username || !password || !host || !port) {
    throw new Error('Missing one or more required environment variables for database connection.');
 }
 
