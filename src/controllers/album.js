@@ -39,7 +39,7 @@ export const getAlbums = async (req, res) => {
 
       // if no albums are found, handle the empty result
       if (albums.length === 0) {
-         return res.status(404).json({ message: 'No albums found.' });
+         return res.status(404).json({ success: false, message: 'No albums found.' });
       }
 
       // send the list of albums to the client
@@ -101,7 +101,11 @@ export const getPaginatedAlbums = async (req, res) => {
          items: rows,
       };
 
-      res.status(200).json(paginationResult);
+      res.status(200).json({
+         success: true,
+         message: 'Successfully fetched paginated results.',
+         data: paginationResult,
+      });
    } catch (error) {
       console.error('Error in fetching paginated data:', error);
       res.status(500).json({
@@ -144,7 +148,9 @@ export const updateAlbumById = async (req, res) => {
 
       // if no album is found
       if (!album) {
-         return res.status(404).json({ message: 'No album with that ID was found.' });
+         return res
+            .status(404)
+            .json({ sucess: false, message: 'No album with that ID was found.' });
       }
       const updatedAlbum = await album.update({
          title: req.body.title,
@@ -156,7 +162,11 @@ export const updateAlbumById = async (req, res) => {
          summary: req.body.summary,
       });
 
-      res.status(200).json({ data: updatedAlbum });
+      res.status(200).json({
+         success: true,
+         message: 'Successfully updated album.',
+         data: updatedAlbum,
+      });
    } catch (error) {
       console.error('Error updating album.', error);
       res.status(500).json({
@@ -174,7 +184,9 @@ export const deleteAlbumById = async (req, res) => {
 
       // if no album is found
       if (!album) {
-         res.status(404).json({ success: false, message: 'No album with that ID was found.' });
+         return res
+            .status(404)
+            .json({ success: false, message: 'No album with that ID was found.' });
       }
 
       await album.destroy();
@@ -224,7 +236,11 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
       }
 
       // send recently created albums to client
-      res.status(200).json(recentAlbums);
+      res.status(200).json({
+         success: true,
+         message: 'successfully fetched recent albums',
+         data: recentAlbums,
+      });
    } catch (error) {
       console.error('Error fetching recent albums:', error);
       res.status(500).json({

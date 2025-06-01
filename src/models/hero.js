@@ -21,6 +21,10 @@ const Hero = sequelize.define(
       alterEgo: {
          type: DataTypes.STRING,
          allowNull: false,
+         validate: {
+            notEmpty: true,
+            len: [2, 100],
+         },
       },
       // place of origin
       placeOfOrigin: {
@@ -31,6 +35,9 @@ const Hero = sequelize.define(
       abilities: {
          type: DataTypes.ARRAY(DataTypes.STRING), // array
          allowNull: false,
+         validate: {
+            notEmpty: true,
+         }
       },
       // biography
       biography: {
@@ -50,7 +57,10 @@ const Hero = sequelize.define(
       timestamps: true,
       indexes: [
          {
-            fields: ['name', 'homePlanet'],
+            fields: ['name', 'placeOfOrigin'],
+         },
+         {
+            fields: ['alterEgo'],
          },
       ],
    }

@@ -15,7 +15,6 @@ const Post = sequelize.define(
       title: {
          type: DataTypes.STRING,
          allowNull: false,
-         unique: true, // prevent duplicate titles
          validate: {
             notEmpty: true,
             len: [5, 255],
@@ -25,6 +24,9 @@ const Post = sequelize.define(
       author: {
          type: DataTypes.STRING,
          allowNull: false,
+         validate: {
+            notEmpty: true,
+         },
       },
       // body of post
       body: {
@@ -50,7 +52,7 @@ const Post = sequelize.define(
          type: DataTypes.ARRAY(DataTypes.STRING), // array
          allowNull: true,
       },
-      // excerpt 
+      // excerpt
       excerpt: {
          type: DataTypes.STRING,
          allowNull: true,
@@ -76,6 +78,12 @@ const Post = sequelize.define(
          },
          {
             fields: ['date'], // index on date for efficient querying by date
+         },
+         {
+            fields: ['favorite'],
+         },
+         {
+            fields: ['tags'],
          },
       ],
    }

@@ -23,7 +23,6 @@ const Album = sequelize.define(
       // artist
       artist: {
          type: DataTypes.STRING,
-         unique: true,
          allowNull: false,
       },
       // release date
@@ -44,13 +43,13 @@ const Album = sequelize.define(
          type: DataTypes.STRING,
          allowNull: false,
       },
-      // studio (array)
+      // genre (array)
       genre: {
          type: DataTypes.ARRAY(DataTypes.STRING),
          allowNull: false,
          validate: {
             notEmpty: true,
-         }
+         },
       },
       // summary
       summary: {
@@ -74,6 +73,12 @@ const Album = sequelize.define(
          },
          {
             fields: ['releaseDate'], // index on date for efficient querying by release date
+         },
+         {
+            fields: ['artist'],
+         },
+         {
+            fields: ['genre'],
          },
       ],
    }

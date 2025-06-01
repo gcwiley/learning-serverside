@@ -28,17 +28,17 @@ export const newPost = async (req, res) => {
    }
 };
 
-// function to fetch all posts from database - GET ALL POSTS
+// function to fetch all posts from database - GET POSTS
 export const getPosts = async (req, res) => {
    try {
       // retrieve all posts ordered by date (most recent first_
       const posts = await Post.findAll({
-         order: [['releaseDate', 'DESC']], // order posts by date
+         order: [['date', 'DESC']], // order posts by date
       });
 
       // if no posts are found, handle the empty result
       if (posts.length === 0) {
-         return res.status(404).json({ message: 'No posts found.' });
+         return res.status(404).json({ success: false, message: 'No posts found.' });
       }
 
       // send the list of posts to the client
@@ -88,7 +88,7 @@ export const updatePostById = async (req, res) => {
       const post = await Post.findByPk(req.params.id);
 
       if (!post) {
-         return res.status(404).json({ message: 'No post with that ID was found.' });
+         return res.status(404).json({ success: false, message: 'No post with that ID was found.' });
       }
       const updatedPost = await post.update({
          title: req.body.title,
@@ -99,7 +99,11 @@ export const updatePostById = async (req, res) => {
          date: new Date(req.body.date),
       });
 
-      res.status(200).json(updatedPost);
+      res.status(200).json({
+         success: true,
+         message: 'Successfully updated post.',
+         data: updatedPost,
+      });
    } catch (error) {
       console.error('Error updating post:', error);
       res.status(500).json({
@@ -117,7 +121,9 @@ export const deletePostById = async (req, res) => {
 
       // if no post is found
       if (!post) {
-         res.status(404).json({ success: false, message: 'No post with that ID was found.' });
+         return res
+            .status(404)
+            .json({ success: false, message: 'No post with that ID was found.' });
       }
 
       await post.destroy();
@@ -138,7 +144,7 @@ export const getPostCount = async (req, res) => {
       const postCount = await Post.count({});
 
       // send post count to client
-      res.status().json({ success: true, message: 'Post count', data: postCount });
+      res.status(200).json({ success: true, message: 'Post count', data: postCount });
    } catch (error) {
       console.error('Error fetching post count:', error);
       res.status(500).json({
@@ -152,17 +158,28 @@ export const getPostCount = async (req, res) => {
 // function to get the 5 most recently create posts - GET RECENT POSTS
 export const getRecentlyCreatedPosts = async (req, res) => {
    try {
-      const mostRecentPosts = await Post.findAll({}).limit(5);
+      const mostRecentPosts = await Post.findAll({
+         order: [['date', 'DESC']],
+         limit: 5,
+      });
 
       // if no recent posts are found
-      if (!mostRecentPosts) {
-         return res.status(404).send();
+      if (mostRecentPosts.length === 0) {
+         return res.status(404).send({ success: false, message: 'No recent posts found.' });
       }
-      // fix
-      res.send(mostRecentPosts);
+
+      res.status(200).json({
+         success: true,
+         message: 'Successfully fetched recent posts.',
+         data: mostRecentPosts,
+      });
    } catch (error) {
-      res.status(500).send(error);
-      console.error(error);
+      console.error('Error fetching recent posts:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Error fetching recent posts.',
+         error: error.message,
+      });
    }
 };
 
