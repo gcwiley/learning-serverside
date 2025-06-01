@@ -22,8 +22,8 @@ const Hero = sequelize.define(
          type: DataTypes.STRING,
          allowNull: false,
       },
-      // place of orgin
-      placeOfOrgin: {
+      // place of origin
+      placeOfOrigin: {
          type: DataTypes.STRING,
          allowNull: false,
       },

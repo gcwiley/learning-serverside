@@ -15,7 +15,7 @@ export const newHero = async (req, res) => {
       });
       res.status(201).json({
          success: true,
-         message: 'Successfully added hero to database',
+         message: 'Successfully created hero in database.',
          data: hero,
       });
    } catch (error) {
