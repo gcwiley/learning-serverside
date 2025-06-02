@@ -30,10 +30,10 @@ const Post = sequelize.define(
       },
       // body of post
       body: {
-         type: DataTypes.TEXT,
+         type: DataTypes.STRING,
          allowNull: false,
          validate: {
-            len: [10, 5000],
+            len: [0, 5000],
          },
       },
       // category - for PostgreSQL only

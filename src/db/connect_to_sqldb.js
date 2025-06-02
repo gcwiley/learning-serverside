@@ -37,6 +37,7 @@ const sequelize = new Sequelize(database, username, password, {
       acquire: 30000,
       idle: 10000,
    },
+   logging: false, // disables all SQL logging
 });
 
 // define an async function to test the database connection
@@ -46,7 +47,7 @@ async function testConnection() {
       console.log(
          chalk.magentaBright(
             '\n',
-            `Connection to the SQL database ${database} has been established successfully.`,
+            `Connection to the SQL database ${database} running on Azure has been established successfully.`,
             '\n'
          )
       );

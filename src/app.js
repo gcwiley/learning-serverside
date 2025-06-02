@@ -3,6 +3,12 @@ import process from 'process';
 import { fileURLToPath } from 'url';
 import chalk from 'chalk';
 import admin from 'firebase-admin';
+import { sequelize } from './db/connect_to_sqldb.js';
+
+// import models
+import './models/album.js';
+import './models/hero.js';
+import './models/post.js';
 
 // get the current file name
 const __filename = fileURLToPath(import.meta.url);
@@ -10,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import express from 'express';
-import logger from 'morgan';
+// import logger from 'morgan';
 
 // import the credentials
 import { serviceAccount } from '../credentials/service-account.js';
@@ -19,6 +25,16 @@ import { serviceAccount } from '../credentials/service-account.js';
 admin.initializeApp({
    credential: admin.credential.cert(serviceAccount),
 });
+
+// this will create the table if it does not exist (and do nothing if it does)
+sequelize
+   .sync({ force: true })
+   .then(() => {
+      console.log('Database & tables synced.');
+   })
+   .catch((error) => {
+      console.error('Error syncing database:', error);
+   });
 
 // import the routers
 import { heroRouter } from './routes/hero.js';
@@ -39,7 +55,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // create a logger middleware
-app.use(logger('dev'));
+// app.use(logger('dev'));
 
 // register the routers
 app.use(heroRouter);
@@ -47,10 +63,10 @@ app.use(albumRouter);
 app.use(postRouter);
 
 // global error handler - to catch and response to error gracefully
-app.use((error, req, res) => {
-   console.error(error.stack);
-   res.status(500).json({ error: 'Internal Server Error' });
-});
+// app.use((error, req, res) => {
+//    console.error(error.stack);
+//    res.status(500).json({ error: 'Internal Server Error' });
+// });
 
 // handle all other routes with angular app - returns angular app
 app.get('*', (req, res) => {

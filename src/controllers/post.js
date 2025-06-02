@@ -9,7 +9,7 @@ export const newPost = async (req, res) => {
          title: req.body.title,
          author: req.body.author,
          body: req.body.body,
-         category: req.body.category,
+         category: Array.isArray(req.body.category) ? req.body.category : [req.body.category],
          favorite: req.body.favorite,
          date: new Date(req.body.date),
       });
@@ -36,9 +36,9 @@ export const getPosts = async (req, res) => {
          order: [['date', 'DESC']], // order posts by date
       });
 
-      // if no posts are found, handle the empty result
+      // if no posts are found
       if (posts.length === 0) {
-         return res.status(404).json({ success: false, message: 'No posts found.' });
+         return res.status(200).json({ success: false, message: 'No posts found.' });
       }
 
       // send the list of posts to the client
@@ -102,7 +102,7 @@ export const updatePostById = async (req, res) => {
       res.status(200).json({
          success: true,
          message: 'Successfully updated post.',
-         data: updatedPost,
+         data: updatedPost, // returns updated post
       });
    } catch (error) {
       console.error('Error updating post:', error);
@@ -141,6 +141,7 @@ export const deletePostById = async (req, res) => {
 // function to count all posts - POST COUNT
 export const getPostCount = async (req, res) => {
    try {
+      // count the number of records
       const postCount = await Post.count({});
 
       // send post count to client
@@ -165,7 +166,7 @@ export const getRecentlyCreatedPosts = async (req, res) => {
 
       // if no recent posts are found
       if (mostRecentPosts.length === 0) {
-         return res.status(404).send({ success: false, message: 'No recent posts found.' });
+         return res.status(404).json({ success: false, message: 'No recent posts found.' });
       }
 
       res.status(200).json({
