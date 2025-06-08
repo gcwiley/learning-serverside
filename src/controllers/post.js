@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 // function to create a new post - NEW POST
 export const newPost = async (req, res) => {
    try {
-      // builds a new model instance and calls save on it
+      // builds a new model post instance and calls save on it
       const post = await Post.create({
          title: req.body.title,
          author: req.body.author,

@@ -4,12 +4,12 @@ import { Op } from 'sequelize';
 // function to create a new hero - NEW HERO
 export const newHero = async (req, res) => {
    try {
-      // builds a new model instance and calls save on it.
+      // builds a new hero model instance and calls save on it.
       const hero = await Hero.create({
          name: req.body.name,
          alterEgo: req.body.alterEgo,
          placeOfOrigin: req.body.placeOfOrigin,
-         abilities: req.body.abilities,
+         abilities: Array.isArray(req.body.abilities) ? req.body.abilities : [req.body.abilities],
          biography: req.body.biography,
       });
       res.status(201).json({
@@ -37,7 +37,7 @@ export const getHeroes = async (req, res) => {
 
       // if no heroes are found
       if (heroes.length === 0) {
-         return res.status(404).json({ success: false, message: 'No heroes were found.' });
+         return res.status(200).json({ success: false, message: 'No heroes were found.' });
       }
 
       // send the list of hereos to the client
