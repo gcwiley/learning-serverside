@@ -28,7 +28,7 @@ admin.initializeApp({
 
 // this will create the table if it does not exist (and do nothing if it does)
 sequelize
-   .sync({ force: true })
+   .sync()
    .then(() => {
       console.log('Database & tables synced.');
    })
