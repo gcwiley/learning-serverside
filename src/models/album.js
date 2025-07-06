@@ -56,13 +56,10 @@ const Album = sequelize.define(
          type: DataTypes.TEXT,
          allowNull: false,
       },
-      // cover image
+      // cover image URL
       coverImageUrl: {
          type: DataTypes.STRING,
-         allowNull: true,
-         validate: {
-            isUrl: true,
-         },
+         allowNull: true, // not required.
       },
    },
    {

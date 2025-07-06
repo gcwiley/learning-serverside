@@ -3,7 +3,6 @@ import { Op } from 'sequelize';
 
 // function to create a new album - NEW ALBUM
 export const newAlbum = async (req, res) => {
-   console.log('ALBUM DATA', req.body);
    try {
       // builds a new model instance and calls save on it.
       const album = await Album.create({

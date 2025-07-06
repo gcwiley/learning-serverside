@@ -44,13 +44,10 @@ const Hero = sequelize.define(
          type: DataTypes.TEXT,
          allowNull: false,
       },
-      // profile picture
+      // profile picture URL
       pictureUrl: {
          type: DataTypes.STRING,
-         allowNull: true,
-         validate: {
-            isUrl: true,
-         },
+         allowNull: true, // not required, as it might be added later or not exist for all heros
       },
    },
    {

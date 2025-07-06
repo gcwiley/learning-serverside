@@ -60,7 +60,7 @@ const Post = sequelize.define(
             len: [0, 255],
          },
       },
-      // date
+      // date of post
       date: {
          type: DataTypes.DATE,
          allowNull: false, // ensures the date is not null
