@@ -4,7 +4,8 @@ import { fileURLToPath } from 'url';
 import chalk from 'chalk';
 import admin from 'firebase-admin';
 import { sequelize } from './db/connect_to_sqldb.js';
-import multer from 'multer';
+import express from 'express';
+import logger from 'morgan';
 
 // import models
 import './models/album.js';
@@ -16,27 +17,17 @@ const __filename = fileURLToPath(import.meta.url);
 // get the current directory name
 const __dirname = path.dirname(__filename);
 
-import express from 'express';
-import logger from 'morgan';
-
 // import the credentials
 import { serviceAccount } from '../credentials/service-account.js';
 
-// initialize the firebase SDK
+// initialize the firebase SDK - add code explaination
 admin.initializeApp({
    credential: admin.credential.cert(serviceAccount),
+   storageBucket: `${serviceAccount.project_id}.appspot.com`,
 });
 
 // initialize firebase storage
 const bucket = admin.storage().bucket; // get the default storage bucket
-
-// configure multer for file uploads
-const upload = multer({
-   storage: multer.memoryStorage(), // store files in memory
-   limits: {
-      fileSize: 5 * 1024 * 1024, // 5MB limit
-   },
-});
 
 // this will create the table if it does not exist (and do nothing if it does)
 sequelize
@@ -97,5 +88,3 @@ app.listen(port, () => {
    console.log(chalk.blue('\n', `Successfully started server running on port ${port}`, '\n'));
 });
 
-// export upload middleware for use in routes
-export { upload };

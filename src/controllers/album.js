@@ -291,3 +291,12 @@ export const searchAlbums = async (req, res) => {
       });
    }
 };
+
+// function to upload an album cover image - UPLOAD ALBUM COVER - fix this!
+export const uploadAlbumCover = async (req, res) => {
+   const { id } = req.params; // album id from URL parameters
+
+   if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded.' });
+   }
+};

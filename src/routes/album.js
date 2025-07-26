@@ -27,15 +27,15 @@ router.get('/api/albums/count', getAlbumCount);
 router.get('/api/albums/recent', getRecentlyCreatedAlbums);
 
 // route handler to search all albums - SEARCH ALBUMS
-router.get('/api/heroes/search', searchAlbums);
+router.get('/api/albums/search', searchAlbums);
 
-// route handler to fetch individual album by ID
+// route handler to fetch individual album by id - GET ALBUM BY ID
 router.get('/api/albums/:id', getAlbumById);
 
-// route handler to update an existing album - UPDATE ALBUM
+// route handler to update an existing album - UPDATE ALBUM BY ID
 router.patch('/api/albums/:id', updateAlbumById);
 
-// route handler to delete an album by ID - DELETE ALBUM
+// route handler to delete an album by ID - DELETE ALBUM BY ID
 router.delete('/api/albums/:id', deleteAlbumById);
 
 export { router as albumRouter };
