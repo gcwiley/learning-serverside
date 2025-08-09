@@ -47,7 +47,7 @@ async function testConnection() {
       console.log(
          chalk.magentaBright(
             '\n',
-            `Connection to the SQL database ${database} running on Azure has been established successfully.`,
+            `Connection to the SQL database ${database} running on Microsoft Azure has been established successfully.`,
             '\n'
          )
       );

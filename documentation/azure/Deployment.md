@@ -2,7 +2,7 @@
 
 - Run the az webapp deployment user set command
 
-az webapp deployment user set --user-name gcwiley --password g6KJ51J84@1983
+az webapp deployment us
 
 ### Step 2 - Configure an existing app
 
