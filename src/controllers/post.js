@@ -126,7 +126,9 @@ export const deletePostById = async (req, res) => {
             .json({ success: false, message: 'No post with that ID was found.' });
       }
 
-      await post.destroy();
+      await post.destroy({
+         logging: true,
+      });
       res.status(200).json({ success: true, message: 'Post deleted successfully.' });
    } catch (error) {
       console.error('Error deleting post:', error);
@@ -138,7 +140,7 @@ export const deletePostById = async (req, res) => {
    }
 };
 
-// function to count all posts - POST COUNT
+// function to count all posts - GET POST COUNT
 export const getPostCount = async (req, res) => {
    try {
       // count the number of records
@@ -156,7 +158,7 @@ export const getPostCount = async (req, res) => {
    }
 };
 
-// function to get the 5 most recently create posts - GET RECENT POSTS
+// function to get the 5 most recently create posts - GET 5 RECENT POSTS
 export const getRecentlyCreatedPosts = async (req, res) => {
    try {
       const mostRecentPosts = await Post.findAll({
