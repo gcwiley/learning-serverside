@@ -1,8 +1,8 @@
-### Local Git deployment to Azure App Service
+# Local Git deployment to Azure App Service
 
 This how-to guide shows you how to deploy your app to Azure App Service from a Git repository on your local computer.
 
-### Prerequisites
+## Prerequisites
 
 To follow the steps in this how-to guide:
 
@@ -10,14 +10,18 @@ To follow the steps in this how-to guide:
 * Install Git - Add Link!
 * Have a local Git repository with code you want to deploy.
 
-### Prepare your repository
-To get automatic builds from Azure App Service Kudu build server, make sure that your respository root has the correct files in your project
+## Prepare your repository
+
+To get automatic builds from Azure App Service Kudu build server, make sure that your repository root has the correct files in your project
+
 * Node.js - `server.js`, `app.js` or `package.json` with a start script.
 
-### Deploy with Kudu build server
+## Deploy with Kudu build server
+
 The easiest way to enable local Git deployment for your app with the Kudu App Service build server is to use Azure Cloud Shell.
 
-#### Configure a deployment user
+## Configure a deployment user
+
 FTP and local Git can deploy to an Azure web app by using a __deployment__ user. Once you configure your deployment user, you can use it for all your Azure deployments. Your account-level deployment `username` and `password` are diffent from your Azure subscription credentials.
 
 To configure the deployment user, run the `az webapp deployment user set` command in Azure Cloud Shell. Replace `<username>`and `<password>` with a deployment user username and password.
@@ -31,6 +35,7 @@ The JSON output shows the password as `null`. If you get a `'Conflict'. Details:
 Record your username and password to use to deploy your web apps.
 
 #### Get the Deployment URL
+
 To get the URL to enable local Git deployment for an existing app, run `az webapp deployment source config-local-git` in the Cloud Shell. Replace `<app-name>` and `<group-name>` with the names of the your app and its Azure resource group.
 ```sh
 az webapp deployment source config-local-git --name <app-name> --resource-group <group-name>
@@ -50,6 +55,7 @@ az webapp deployment list-publishing-credentials --name <app-name> --resource-gr
 Use the URL that returns to deploy your app in the next step.
 
 #### Deploy the web app
+
 1. Open a local terminal window to your local Git repository, and add an Azure remote. In the following command, replace `<url>` with the deployment user-specific URL or app-specific URL you got from the previous step.
 ```sh
 git remote add azure <url>
