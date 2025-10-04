@@ -1,6 +1,5 @@
-import express from 'express';
-
-const router = new express.Router();
+import { Router } from 'express';
+const router = Router();
 
 // hero controller functions
 import {
@@ -26,7 +25,7 @@ router.get('/api/heroes/count', getHeroCount);
 // route handler to get the last 5 heroes created - GET 5 RECENT HEROES
 router.get('/api/heroes/recent', getRecentlyCreatedHeroes);
 
-// rotue hanlder to search heroes - SEARCH HEROES
+// route hanlder to search heroes - SEARCH HEROES
 router.get('/api/heroes/search', searchHeroes);
 
 // route handler to fetch individual hero - GET HERO BY ID

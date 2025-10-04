@@ -1,6 +1,5 @@
 import { Router } from 'express';
-
-const router = new Router();
+const router = Router();
 
 // post controller functions
 import {

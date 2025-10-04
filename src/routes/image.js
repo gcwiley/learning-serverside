@@ -1,15 +1,32 @@
 import { Router } from 'express';
+const router = Router();
 
-const router = new Router();
+// image controller function (implement these in src/controller/image)
+import {
+  newImage,
+  getImages,
+  getImageById,
+  deleteImageById,
+  updateImageById,
+  searchImages,
+} from '../controllers/image.js';
 
-// image controller function - fix this!
+// POST: create a new image (multipart/form-data expected)
+router.post('/api/images', newImage);
 
-// route handler to create a new image - NEW IMAGE
-router.post('/api/images,');
+// GET: all images
+router.get('/api/images', getImages);
 
-// route handler for fetching all images - GET ALL IMAGES
-router.get('/api/images');
+// GET: search images (e.g., /api/images/search?query=foo)
+router.get('/api/images/search', searchImages);
 
-// fix this!
+// GET: single image by id
+router.get('/api/images/:id', getImageById);
 
-// fix this!
+// PATCH: update image metadata
+router.patch('/api/images/:id', updateImageById);
+
+// DELETE: delete image by id
+router.delete('/api/images/:id', deleteImageById);
+
+export { router as imageRouter };

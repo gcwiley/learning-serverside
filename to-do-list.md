@@ -10,8 +10,8 @@
 
 - refactor image controller to match other controllers and be able upload images
 
-- configure domain name to work with deployed app. 
+- configure domain name to work with deployed app.
 
 - refactor 'conect_to_sqldb.js' code to work with Google Cloud SQL database
 
-- build out gcloud cheet sheet. 
+- build out gcloud cheet sheet.
