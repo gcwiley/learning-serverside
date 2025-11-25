@@ -3,64 +3,67 @@ import { sequelize } from '../db/connect_to_sqldb.js';
 
 // define the hero model
 const Hero = sequelize.define(
-   'Hero',
-   {
-      // id - unique identifier (UUID)
-      id: {
-         type: DataTypes.UUID,
-         defaultValue: DataTypes.UUIDV4,
-         primaryKey: true,
+  'Hero',
+  {
+    // id - unique identifier (UUID)
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+    // name
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    // alter ego
+    alterEgo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [2, 100],
       },
-      // name
-      name: {
-         type: DataTypes.STRING,
-         unique: true,
-         allowNull: false,
+    },
+    // place of origin
+    placeOfOrigin: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    // abilities
+    abilities: {
+      type: DataTypes.ARRAY(DataTypes.STRING), // array
+      allowNull: false,
+      validate: {
+        notEmpty: true,
       },
-      // alter ego
-      alterEgo: {
-         type: DataTypes.STRING,
-         allowNull: false,
-         validate: {
-            notEmpty: true,
-            len: [2, 100],
-         },
+    },
+    // biography
+    biography: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    // profile picture URL
+    pictureUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        isUrl: true, // adds validation to ensure string is a URL
       },
-      // place of origin
-      placeOfOrigin: {
-         type: DataTypes.STRING,
-         allowNull: false,
+    },
+  },
+  {
+    timestamps: true,
+    indexes: [
+      {
+        fields: ['name', 'placeOfOrigin'],
       },
-      // abilities
-      abilities: {
-         type: DataTypes.ARRAY(DataTypes.STRING), // array
-         allowNull: false,
-         validate: {
-            notEmpty: true,
-         }
+      {
+        fields: ['alterEgo'],
       },
-      // biography
-      biography: {
-         type: DataTypes.TEXT,
-         allowNull: false,
-      },
-      // profile picture URL
-      pictureUrl: {
-         type: DataTypes.STRING,
-         allowNull: true, // not required, as it might be added later or not exist for all heros
-      },
-   },
-   {
-      timestamps: true,
-      indexes: [
-         {
-            fields: ['name', 'placeOfOrigin'],
-         },
-         {
-            fields: ['alterEgo'],
-         },
-      ],
-   }
+    ],
+  }
 );
 
 export { Hero };

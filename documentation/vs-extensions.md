@@ -10,7 +10,7 @@
 
 6. Dev Container - Microsoft
 
-7. ESLint - Microsoft 
+7. ESLint - Microsoft
 
 8. IntelliCode - Microsoft
 

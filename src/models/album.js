@@ -6,6 +6,7 @@ const Album = sequelize.define(
    'Album',
    {
       // id - unique identifier (UUID)
+      // 
       id: {
          type: DataTypes.UUID,
          defaultValue: DataTypes.UUIDV4,
@@ -21,9 +22,15 @@ const Album = sequelize.define(
          },
       },
       // artist
-      artist: {
-         type: DataTypes.STRING,
+      artistId: {
+         type: DataTypes.UUID,
          allowNull: false,
+         references: {
+            model: 'Artists', // matches Artist.tableName
+            key: 'id'
+         },
+         onDelete: 'CASCADE',
+         onUpdate: 'CASCADE'
       },
       // release date
       releaseDate: {
@@ -43,10 +50,11 @@ const Album = sequelize.define(
          type: DataTypes.STRING,
          allowNull: false,
       },
-      // genre (array)
+      // genre (array) - NOTE: This requires PostgreSQL
       genre: {
          type: DataTypes.ARRAY(DataTypes.STRING),
          allowNull: false,
+         defaultValue: [],
          validate: {
             notEmpty: true,
          },
@@ -59,14 +67,17 @@ const Album = sequelize.define(
       // cover image URL
       coverImageUrl: {
          type: DataTypes.STRING,
-         allowNull: true, // not required.
+         allowNull: true,
+         validate: {
+            isUrl: true, // adds validation to ensure string is a URL
+         }
       },
    },
    {
       timestamps: true,
       indexes: [
          {
-            fields: ['artist', 'genre'], // adds a composite index on the 'artist' and 'genre' columns
+            fields: ['artistId', 'genre'], // adds a composite index on the 'artist' and 'genre' columns
          },
          {
             fields: ['releaseDate'], // index on date for efficient querying by release date
