@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../db/connect_to_sqldb';
+import { sequelize } from '../db/connect_to_sqldb.js';
 
 // define the image model
 const Image = sequelize.define(
@@ -11,8 +11,17 @@ const Image = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    // name - orginal file name
+    // name - original file name
     originalName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      }
+    },
+    // storageFilename - the name/path inside the bucket
+    // CRITICAL: you need this to delete the file from the bucket later
+    storageFilename: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -51,6 +60,10 @@ const Image = sequelize.define(
   },
   {
     timestamps: true,
+    tableName: 'Images', // explicit table name
+    indexes: [
+      { fields: ['uploadedBy']}, // index for finding all images by a user
+    ]
   }
 );
 

@@ -1,8 +1,11 @@
 import { Album } from './album.js';
 import { Artist } from './artist.js';
+import { Hero } from './hero.js';
+import { Image } from './image.js';
+import { Post } from './post.js';
 
-// associations
+// define relationships
 Artist.hasMany(Album, { foreignKey: 'artistId', as: 'albums' });
 Album.belongsTo(Artist, { foreignKey: 'artistId', as: 'artist' });
 
-export { Artist, Album };
+export { Album, Artist, Hero, Image, Post };

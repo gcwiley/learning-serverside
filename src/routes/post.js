@@ -19,7 +19,7 @@ router.post('/api/posts', newPost);
 // route handler for fetching all albums - GET ALL POSTS
 router.get('/api/posts', getPosts);
 
-// route hanlder to count all posts in database - COUNT ALL POSTS
+// route handler to count all posts in database - COUNT ALL POSTS
 router.get('/api/posts/count', getPostCount);
 
 // route handler to get the last 5 posts created - GET 5 RECENT POSTS

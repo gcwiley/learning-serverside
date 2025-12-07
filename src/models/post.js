@@ -5,7 +5,7 @@ import { sequelize } from '../db/connect_to_sqldb.js';
 const Post = sequelize.define(
    'Post',
    {
-      // id - unique identifer (UUID)
+      // id - unique identifier (UUID)
       id: {
          type: DataTypes.UUID,
          defaultValue: DataTypes.UUIDV4,

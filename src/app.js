@@ -3,88 +3,108 @@ import process from 'process';
 import { fileURLToPath } from 'url';
 import chalk from 'chalk';
 import admin from 'firebase-admin';
-import { sequelize } from './db/connect_to_sqldb.js';
 import express from 'express';
 import logger from 'morgan';
 
-// import models
-import './models/album.js';
-import './models/hero.js';
-import './models/post.js';
+// import database connection and helper
+import { sequelize, connectToDatabase } from './db/connect_to_sqldb.js';
 
-// get the current file name
-const __filename = fileURLToPath(import.meta.url);
-// get the current directory name
-const __dirname = path.dirname(__filename);
-
-// import the credentials
-import { serviceAccount } from '../credentials/service-account.js';
-
-// initialize the firebase SDK - add code explaination
-admin.initializeApp({
-   credential: admin.credential.cert(serviceAccount),
-   storageBucket: `${serviceAccount.project_id}.appspot.com`,
-});
-
-// initialize firebase storage
-const bucket = admin.storage().bucket; // get the default storage bucket
-
-// this will create the table if it does not exist (and do nothing if it does)
-sequelize
-   .sync()
-   .then(() => {
-      console.log('Database & tables synced.');
-   })
-   .catch((error) => {
-      console.error('Error syncing database:', error);
-   });
+// import models ( ensure they are registered with sequelize)
+// import index.js to load models AND their associations
+import './models/index.js';
 
 // import the routers
 import { heroRouter } from './routes/hero.js';
 import { albumRouter } from './routes/album.js';
 import { postRouter } from './routes/post.js';
 
-// create an express instance
+// import the credentials
+import { serviceAccount } from '../credentials/service-account.js';
+
+// --- CONFIGURATION ---
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const port = process.env.PORT || 3000;
+const angularDistPath = path.join(
+  __dirname,
+  './dist/learning-angular-material/browser'
+);
+
+// --- FIREBASE INIT ---
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: `${serviceAccount.project_id}.appspot.com`,
+});
+
+const bucket = admin.storage().bucket();
+
+// --- EXPRESS SETUP ---
 const app = express();
 
-// set the port
-const port = process.env.PORT || 3000;
-
-// allow static access to the angular client side folder
-app.use(express.static(path.join(__dirname, '/dist/learning-angular-material/browser')));
-
-// automatically parse incoming JSON to an object so we can access it in our request handlers
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// create a logger middleware
-app.use(logger('dev'));
+// serve static files (angular)
+app.use(express.static(angularDistPath));
 
-// make the firebase storage bucket and upload middleware available to request handlers
+// middleware: attach firebase bucket to request
 app.use((req, res, next) => {
-   req.bucket = bucket; // attach the firebase storage bucket
-   next();
+  req.bucket = bucket;
+  next();
 });
 
-// register the routers
+// --- ROUTES ---
 app.use(heroRouter);
 app.use(albumRouter);
 app.use(postRouter);
 
-// global error handler - to catch and response to error gracefully
-app.use((error, req, res) => {
-   console.error(error.stack);
-   res.status(500).json({ error: 'Internal Server Error' });
+// global error handler - express requires 4 args for error handlers
+app.use((error, req, res, next) => {
+  console.error(chalk.red('Server Error:', error.stack));
+  // ensure we don't try to send a response if one was already sent
+  if (res.headersSent) {
+    return next(error);
+  }
+  res
+    .status(500)
+    .json({ error: 'Internal Server Error', message: error.message });
 });
 
-// handle all other routes with angular app - returns angular app
+// catch all route: send angular index.html for non-API routes
 app.get('*', (req, res) => {
-   // send back the angular index.html file
-   res.sendFile(path.join(__dirname, './dist/learning-angular-material/browser', 'index.html'));
+  res.sendFile(path.join(angularDistPath, 'index.html'));
 });
 
-// start the server
-app.listen(port, () => {
-   console.log(chalk.blue('\n', `Successfully started server running on port ${port}`, '\n'));
-});
+// --- STARTUP SEQUENCE ---
+const startServer = async () => {
+  try {
+    // 1. establish DB connection
+    await connectToDatabase();
 
+    // 2. sync models (create tables if missing)
+    // note: in production, use Migrations instead of sync()
+    await sequelize.sync({ alter: true });
+    console.log(chalk.green('Database models synced successfully.'));
+
+    // 3. start listening
+    const server = app.listen(port, () => {
+      console.log(chalk.blueBright(`\n Server running on port ${port}\n`));
+    });
+
+    // 4. graceful shutdown
+    process.on('SIGINT', async () => {
+      console.log(chalk.yellow('Gracefully shutting down...'));
+      await sequelize.close();
+      server.close(() => {
+        console.log(chalk.green('Server closed'));
+        process.exit(0);
+      });
+    });
+  } catch (error) {
+    console.error(chalk.red('Failed to start server:', error));
+    process.exit(1);
+  }
+};
+
+startServer();

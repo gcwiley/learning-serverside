@@ -21,12 +21,12 @@ const Album = sequelize.define(
             notEmpty: true,
          },
       },
-      // artist
+      // artist - foreign key
       artistId: {
          type: DataTypes.UUID,
          allowNull: false,
          references: {
-            model: 'Artists', // matches Artist.tableName
+            model: 'Artists',
             key: 'id'
          },
          onDelete: 'CASCADE',
@@ -75,15 +75,16 @@ const Album = sequelize.define(
    },
    {
       timestamps: true,
+      tableName: 'Albums',
       indexes: [
          {
-            fields: ['artistId', 'genre'], // adds a composite index on the 'artist' and 'genre' columns
+            fields: ['artistId', 'genre'],
          },
          {
-            fields: ['releaseDate'], // index on date for efficient querying by release date
+            fields: ['releaseDate'],
          },
          {
-            fields: ['artist'],
+            fields: ['artistId'],
          },
          {
             fields: ['genre'],
