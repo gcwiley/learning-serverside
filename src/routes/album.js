@@ -13,8 +13,6 @@ import {
   searchAlbums,
 } from '../controllers/album.js';
 
-// --- SPECIFIC ROUTES (Must come BEFORE /:id) ---
-
 // route handler to count all albums in database
 router.get('/api/albums/count', getAlbumCount);
 

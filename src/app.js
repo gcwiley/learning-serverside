@@ -1,5 +1,4 @@
 import path from 'path';
-import process from 'process';
 import { fileURLToPath } from 'url';
 import chalk from 'chalk';
 import admin from 'firebase-admin';
@@ -16,7 +15,6 @@ import './models/index.js';
 // import the routers
 import { heroRouter } from './routes/hero.js';
 import { albumRouter } from './routes/album.js';
-import { postRouter } from './routes/post.js';
 
 // import the credentials
 import { serviceAccount } from '../credentials/service-account.js';
@@ -55,9 +53,8 @@ app.use((req, res, next) => {
 });
 
 // --- ROUTES ---
-app.use(heroRouter);
-app.use(albumRouter);
-app.use(postRouter);
+app.use('/api/heroes', heroRouter); // namespaced
+app.use('/api/albums', albumRouter); // 
 
 // global error handler - express requires 4 args for error handlers
 app.use((error, req, res, next) => {

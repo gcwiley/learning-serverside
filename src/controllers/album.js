@@ -1,5 +1,4 @@
 import { Op } from 'sequelize';
-// import from index.js to ensure associations are loaded
 import { Album, Artist } from '../models/index.js';
 
 // CREATE NEW ALBUM
