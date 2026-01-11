@@ -13,32 +13,29 @@ import {
   searchAlbums,
 } from '../controllers/album.js';
 
-// route handler to count all albums in database
-router.get('/api/albums/count', getAlbumCount);
+// GET /api/albums/count - count all albums
+router.get('/count', getAlbumCount);
 
-// route handler to get the last 5 albums created
-router.get('/api/albums/recent', getRecentlyCreatedAlbums);
+// GET /api/albums/recent - get recent albums
+router.get('/recent', getRecentlyCreatedAlbums);
 
-// route handler to search all albums
-router.get('/api/albums/search', searchAlbums);
+// GET /api/albums/search - search albums
+router.get('/search', searchAlbums);
 
-// --- GENERAL ROUTES ---
+// GET /api/albums - get all albums
+router.get('/', getAlbums);
 
-// route handler to create a new album
-router.post('/api/albums', newAlbum);
+// GET /api/albums/:id - get album by id
+// (must come after specific routes like 'count' or 'recent')
+router.get('/:id', getAlbumById);
 
-// route handler for fetching all albums
-router.get('/api/albums', getAlbums);
+// POST /api/albums - create new album
+router.post('/', newAlbum);
 
-// --- PARAMETERIZED ROUTES (Must come LAST) ---
+// PATCH /api/albums/:id - update album
+router.patch('/:id', updateAlbumById);
 
-// route handler to fetch individual album by id
-router.get('/api/albums/:id', getAlbumById);
-
-// route handler to update an existing album
-router.patch('/api/albums/:id', updateAlbumById);
-
-// route handler to delete an album by ID
+// DELETE /api/albums/:id - delete album
 router.delete('/api/albums/:id', deleteAlbumById);
 
 export { router as albumRouter };
