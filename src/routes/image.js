@@ -11,6 +11,8 @@ import {
   searchImages,
 } from '../controllers/image.js';
 
+// fix this!
+
 // POST: create a new image (multipart/form-data expected)
 router.post('/api/images', newImage);
 

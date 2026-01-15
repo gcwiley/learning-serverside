@@ -32,7 +32,7 @@ const dialectOptions = isProduction
   ? {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // often needed for self-signed cloud certs
+        rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== false,
       },
     }
   : {};
@@ -66,10 +66,8 @@ const connectToDatabase = async () => {
     console.error(
       chalk.red(`\nUnable to connect to the database: ${error.message}\n`)
     );
-    // exit process on DB failure, as the app cannot function without it
-    process.exit(1);
+    throw error; // let caller decide how to handle
   }
 };
 
-// export the sequelize instance AND the connection function
 export { sequelize, connectToDatabase };

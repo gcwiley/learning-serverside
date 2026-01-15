@@ -4,19 +4,14 @@ import chalk from 'chalk';
 import admin from 'firebase-admin';
 import express from 'express';
 import logger from 'morgan';
+import helmet from 'helmet';
+import cors from 'cors';
 
-// import database connection and helper
 import { sequelize, connectToDatabase } from './db/connect_to_sqldb.js';
-
-// import models ( ensure they are registered with sequelize)
-// import index.js to load models AND their associations
 import './models/index.js';
-
-// import the routers
-import { heroRouter } from './routes/hero.js';
 import { albumRouter } from './routes/album.js';
-
-// import the credentials
+import { heroRouter } from './routes/hero.js';
+import { imageRouter } from './routes/image.js';
 import { serviceAccount } from '../credentials/service-account.js';
 
 // --- CONFIGURATION ---
@@ -39,22 +34,31 @@ const bucket = admin.storage().bucket();
 // --- EXPRESS SETUP ---
 const app = express();
 
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
+  credentials: true,
+}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// serve static files (angular)
 app.use(express.static(angularDistPath));
 
-// middleware: attach firebase bucket to request
 app.use((req, res, next) => {
   req.bucket = bucket;
   next();
 });
 
 // --- ROUTES ---
-app.use('/api/heroes', heroRouter); // namespaced
-app.use('/api/albums', albumRouter); // 
+app.use('/api/heroes', heroRouter);
+app.use('/api/albums', albumRouter);
+app.use('/api/images', imageRouter);
+
+app.get('{*splat}', (req, res) => {
+  res.sendFile(path.join(angularDistPath, 'index.html'));
+});
 
 // global error handler - express requires 4 args for error handlers
 app.use((error, req, res, next) => {
@@ -68,18 +72,13 @@ app.use((error, req, res, next) => {
     .json({ error: 'Internal Server Error', message: error.message });
 });
 
-// catch all route: send angular index.html for non-API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(angularDistPath, 'index.html'));
-});
-
 // --- STARTUP SEQUENCE ---
 const startServer = async () => {
   try {
     // 1. establish DB connection
     await connectToDatabase();
 
-    // 2. sync models (create tables if missing)
+    // 2. sync models (create tables if missing) - ONLY IN DEVELOPMENT
     // note: in production, use Migrations instead of sync()
     await sequelize.sync({ alter: true });
     console.log(chalk.green('Database models synced successfully.'));

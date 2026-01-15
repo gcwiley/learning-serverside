@@ -32,10 +32,10 @@ router.get('/:id', getAlbumById);
 // POST /api/albums - create new album
 router.post('/', newAlbum);
 
-// PATCH /api/albums/:id - update album
+// PATCH /api/albums/:id - update album by id
 router.patch('/:id', updateAlbumById);
 
-// DELETE /api/albums/:id - delete album
-router.delete('/api/albums/:id', deleteAlbumById);
+// DELETE /api/albums/:id - delete album by id
+router.delete('/:id', deleteAlbumById);
 
 export { router as albumRouter };

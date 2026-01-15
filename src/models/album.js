@@ -6,7 +6,6 @@ const Album = sequelize.define(
    'Album',
    {
       // id - unique identifier (UUID)
-      // 
       id: {
          type: DataTypes.UUID,
          defaultValue: DataTypes.UUIDV4,
