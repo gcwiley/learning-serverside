@@ -81,7 +81,7 @@ export const newAlbumTest = async (req, res) => {
   }
 };
 
-// function to fetch all albums from database - GET ALL ALBUMS
+// GET ALL ALBUMS
 export const getAlbums = async (req, res) => {
   try {
     // retrieve all albums ordered by date (most recent first)
@@ -111,7 +111,7 @@ export const getAlbums = async (req, res) => {
     });
   }
 };
-// function to fetch all albums from the database - GET ALBUMS PAGINATION
+// GET ALBUMS PAGINATION
 export const getPaginatedAlbums = async (req, res) => {
   try {
     // extract and validate pagination parameters from query string (with default values)
@@ -170,7 +170,7 @@ export const getPaginatedAlbums = async (req, res) => {
   }
 };
 
-// function to fetch individual album by id - GET ALBUM BY ID
+// GET ALBUM BY ID
 export const getAlbumById = async (req, res) => {
   try {
     // find the album by primary key (assumes 'id' is the primary key in the album model)
@@ -199,7 +199,7 @@ export const getAlbumById = async (req, res) => {
   }
 };
 
-// function to update a album by id - UPDATE ALBUM BY ID
+// UPDATE ALBUM BY ID
 export const updateAlbumById = async (req, res) => {
   try {
     const album = await Album.findByPk(req.params.id);
@@ -235,7 +235,7 @@ export const updateAlbumById = async (req, res) => {
   }
 };
 
-// function to delete album by id - DELETE ALBUM BY ID
+// DELETE ALBUM BY ID
 export const deleteAlbumById = async (req, res) => {
   try {
     const album = await Album.findByPk(req.params.id);
@@ -261,7 +261,7 @@ export const deleteAlbumById = async (req, res) => {
   }
 };
 
-// function to count all albums in database - GET ALBUM COUNT
+// GET ALBUM COUNT
 export const getAlbumCount = async (req, res) => {
   try {
     const albumCount = await Album.count({});
@@ -282,7 +282,7 @@ export const getAlbumCount = async (req, res) => {
   }
 };
 
-// function to get the 10 most recently created albums - GET RECENT ALBUMS
+// GET RECENT ALBUMS
 export const getRecentlyCreatedAlbums = async (req, res) => {
   try {
     // finds 10 most recent albums and sorts by 'createdAt' in descending order
@@ -313,7 +313,7 @@ export const getRecentlyCreatedAlbums = async (req, res) => {
   }
 };
 
-// function to search for albums by title, artist, or genre - SEARCH ALBUMS
+// SEARCH ALBUMS
 export const searchAlbums = async (req, res) => {
   const { query } = req.query;
 

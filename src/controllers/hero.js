@@ -1,7 +1,7 @@
 import { Hero } from '../models/hero.js';
 import { Op } from 'sequelize';
 
-// function to create a new hero - NEW HERO
+// NEW HERO
 export const newHero = async (req, res) => {
    try {
       // builds a new hero model instance and calls save on it.
@@ -27,7 +27,7 @@ export const newHero = async (req, res) => {
    }
 };
 
-// function to fetch all heroes from database - GET ALL HEROES
+// GET ALL HEROES
 export const getHeroes = async (req, res) => {
    try {
       // retrieve all heroes ordered by date (most recent first)
@@ -56,7 +56,7 @@ export const getHeroes = async (req, res) => {
    }
 };
 
-// function to fetch individual hero by ID - HERO BY ID
+// GET HERO BY ID
 export const getHeroById = async (req, res) => {
    try {
       const hero = await Hero.findByPk(req.params.id);
@@ -79,7 +79,7 @@ export const getHeroById = async (req, res) => {
    }
 };
 
-// function to update a hero by id - UPDATE HERO BY ID
+// UPDATE HERO BY ID
 export const updateHeroById = async (req, res) => {
    try {
       const hero = await Hero.findByPk(req.params.id);
@@ -112,7 +112,7 @@ export const updateHeroById = async (req, res) => {
    }
 };
 
-// function to delete a hero by ID - DELETE HERO
+// DELETE HERO
 export const deleteHeroById = async (req, res) => {
    try {
       const hero = await Hero.findByPk(req.params.id);
@@ -136,7 +136,7 @@ export const deleteHeroById = async (req, res) => {
    }
 };
 
-// function to count all heroes - GET HERO COUNT
+// GET HERO COUNT
 export const getHeroCount = async (req, res) => {
    try {
       const heroCount = await Hero.count({});
@@ -157,7 +157,7 @@ export const getHeroCount = async (req, res) => {
    }
 };
 
-// function to get the 10 most recently create heroes - GET RECENT HEROES
+// GET RECENT HEROES
 export const getRecentlyCreatedHeroes = async (req, res) => {
    try {
       const recentHeroes = await Hero.findAll({
@@ -184,7 +184,7 @@ export const getRecentlyCreatedHeroes = async (req, res) => {
    }
 };
 
-// function to search for heroes by name, place of origin, or alterEgo - SEARCH HEROES
+// SEARCH HEROES
 export const searchHeroes = async (req, res) => {
    const { query } = req.query;
 
