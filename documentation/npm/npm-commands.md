@@ -1,4 +1,4 @@
-### Upgrading NPM on Mac OS
+# Upgrading NPM on Mac OS
 
 `sudo npm install -g npm@latest`
 

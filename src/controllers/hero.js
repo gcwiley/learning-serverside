@@ -1,16 +1,17 @@
 import { Hero } from '../models/hero.js';
 import { Op } from 'sequelize';
+import { isValidUUID } from '../helpers/validate.js';
 
 // NEW HERO
 export const newHero = async (req, res) => {
    try {
-      // builds a new hero model instance and calls save on it.
+      const { name, alterEgo, placeOfOrigin, abilities, biography } = req.body;
       const hero = await Hero.create({
-         name: req.body.name,
-         alterEgo: req.body.alterEgo,
-         placeOfOrigin: req.body.placeOfOrigin,
-         abilities: Array.isArray(req.body.abilities) ? req.body.abilities : [req.body.abilities],
-         biography: req.body.biography,
+         name,
+         alterEgo,
+         placeOfOrigin,
+         abilities,
+         biography,
       });
       res.status(201).json({
          success: true,
@@ -27,7 +28,7 @@ export const newHero = async (req, res) => {
    }
 };
 
-// GET ALL HEROES
+// GET HEROES
 export const getHeroes = async (req, res) => {
    try {
       // retrieve all heroes ordered by date (most recent first)
@@ -54,6 +55,40 @@ export const getHeroes = async (req, res) => {
          error: error.message,
       });
    }
+};
+
+// GET HEROES WITH PAGINATION
+export const getHeroesWithPagination = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows: heroes } = await Hero.findAndCountAll({
+      order: [['date', 'DESC']],
+      limit,
+      offset,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: heroes.length ? 'Successfully fetched heroes.' : 'No heroes found.',
+      data: heroes,
+      pagination: {
+        total: count,
+        page,
+        limit,
+        totalPages: Math.ceil(count / limit),
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching heroes:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching heroes.',
+      error: error.message,
+    });
+  }
 };
 
 // GET HERO BY ID

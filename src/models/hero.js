@@ -33,7 +33,7 @@ const Hero = sequelize.define(
     },
     // abilities
     abilities: {
-      type: DataTypes.ARRAY(DataTypes.STRING), // array
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,

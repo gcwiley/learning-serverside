@@ -1,34 +1,17 @@
 import { Router } from 'express';
 const router = Router();
 
-// image controller function (implement these in src/controller/image)
-import {
-  newImage,
-  getImages,
-  getImageById,
-  deleteImageById,
-  updateImageById,
-  searchImages,
-} from '../controllers/image.js';
+// middleware
+import { upload } from '../middleware/upload.js';
 
-// fix this!
+// image controller functions
+import { uploadImage, deleteImage } from '../controllers/image.js';
 
-// POST: create a new image (multipart/form-data expected)
-router.post('/api/images', newImage);
+// POST /api/images/upload
+// uses 'upload.single('image') to handle the file parsing before the controller
+router.post('/upload', upload.single('image'), uploadImage);
 
-// GET: all images
-router.get('/api/images', getImages);
-
-// GET: search images (e.g., /api/images/search?query=foo)
-router.get('/api/images/search', searchImages);
-
-// GET: single image by id
-router.get('/api/images/:id', getImageById);
-
-// PATCH: update image metadata
-router.patch('/api/images/:id', updateImageById);
-
-// DELETE: delete image by id
-router.delete('/api/images/:id', deleteImageById);
+// DELETE /api/images/delete?fileName=uploads/filename.jpg
+router.delete('/delete', deleteImage);
 
 export { router as imageRouter };

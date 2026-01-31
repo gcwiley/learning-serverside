@@ -16,7 +16,7 @@ import {
 // POST NEW HERO
 router.post('/api/heroes', newHero);
 
-// route handler for fetching all heroes - GET ALL HEROES
+// route handler for fetching all herGET ALL HEROES
 router.get('/api/heroes', getHeroes);
 
 // route handler to count all heroes in database - COUNT ALL HEROES

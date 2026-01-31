@@ -1,18 +1,20 @@
-import { Op } from 'sequelize';
 import { Album, Artist } from '../models/index.js';
+import { Op } from 'sequelize';
+import { isValidUUID } from '../helpers/validate.js';
 
 // CREATE NEW ALBUM
 export const newAlbum = async (req, res) => {
   try {
-    // builds a new model instance and calls save on it.
+    const { title, artist, releaseDate, label, studio, genre, summary } =
+      req.body;
     const album = await Album.create({
-      title: req.body.title,
-      artist: req.body.artist,
-      releaseDate: new Date(req.body.releaseDate),
-      label: req.body.label,
-      studio: req.body.studio,
-      genre: req.body.genre,
-      summary: req.body.summary,
+      title,
+      artist,
+      releaseDate: new Date(releaseDate),
+      label,
+      studio,
+      genre,
+      summary,
     });
     res.status(201).json({
       success: true,
