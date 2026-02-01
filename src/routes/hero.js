@@ -13,23 +13,24 @@ import {
   searchHeroes,
 } from '../controllers/hero.js';
 
-// POST NEW HERO
-router.post('/api/heroes', newHero);
+// GET /api/heroes/count - count all heroes
+router.get('/count', getHeroCount);
 
-// route handler for fetching all herGET ALL HEROES
-router.get('/api/heroes', getHeroes);
+// GET /api/heroes/recent - get recent heroes
+router.get('/recent', getRecentlyCreatedHeroes);
 
-// route handler to count all heroes in database - COUNT ALL HEROES
-router.get('/api/heroes/count', getHeroCount);
+// GET /api/heroes/search - search heroes
+router.get('/search', searchHeroes);
 
-// route handler to get the last 5 heroes created - GET 5 RECENT HEROES
-router.get('/api/heroes/recent', getRecentlyCreatedHeroes);
+// GET /api/heroes - get all heroes
+router.get('/', getHeroes);
 
-// route handler to search heroes - SEARCH HEROES
-router.get('/api/heroes/search', searchHeroes);
+// GET /api/heroes/:id - get heroes by id
+// (must come after specific routes like 'count' or 'recent')
+router.get('/:id', getHeroById);
 
-// route handler to fetch individual hero - GET HERO BY ID
-router.get('/api/heroes/:id', getHeroById);
+// POST /api/heroes - create new hero
+router.post('/', newHero);
 
 // PATCH /api/heroes/:id - update hero by id
 router.patch('/:id', updateHeroById);

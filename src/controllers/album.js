@@ -1,6 +1,5 @@
 import { Album, Artist } from '../models/index.js';
 import { Op } from 'sequelize';
-import { isValidUUID } from '../helpers/validate.js';
 
 // CREATE NEW ALBUM
 export const newAlbum = async (req, res) => {

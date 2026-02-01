@@ -1,6 +1,5 @@
 import { Hero } from '../models/hero.js';
 import { Op } from 'sequelize';
-import { isValidUUID } from '../helpers/validate.js';
 
 // NEW HERO
 export const newHero = async (req, res) => {
@@ -28,7 +27,7 @@ export const newHero = async (req, res) => {
    }
 };
 
-// GET HEROES
+// GET ALL HEROES
 export const getHeroes = async (req, res) => {
    try {
       // retrieve all heroes ordered by date (most recent first)
@@ -41,7 +40,7 @@ export const getHeroes = async (req, res) => {
          return res.status(200).json({ success: false, message: 'No heroes were found.' });
       }
 
-      // send the list of hereos to the client
+      // send the list of heroes to the client
       res.status(200).json({
          success: true,
          message: 'Successfully fetched all heroes.',
@@ -134,7 +133,7 @@ export const updateHeroById = async (req, res) => {
 
       res.status(200).json({
          success: true,
-         message: 'Successfully updated hero',
+         message: 'Successfully updated hero.',
          data: updatedHero,
       });
    } catch (error) {
@@ -147,7 +146,7 @@ export const updateHeroById = async (req, res) => {
    }
 };
 
-// DELETE HERO
+// DELETE HERO BY ID
 export const deleteHeroById = async (req, res) => {
    try {
       const hero = await Hero.findByPk(req.params.id);
@@ -192,7 +191,7 @@ export const getHeroCount = async (req, res) => {
    }
 };
 
-// GET RECENT HEROES
+// GET RECENTLY CREATED HEROES
 export const getRecentlyCreatedHeroes = async (req, res) => {
    try {
       const recentHeroes = await Hero.findAll({

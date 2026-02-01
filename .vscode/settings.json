@@ -14,5 +14,7 @@
   // set the icon theme to material icon theme
   "workbench.iconTheme": "material-icon-theme",
   // sets the zoom level
-  "window.zoomLevel": 1
+  "window.zoomLevel": 1,
+  // fix this!
+  "cSpell.words": ["appspot", "gcloudignore", "sqldb", "UUIDV"]
 }
