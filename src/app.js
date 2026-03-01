@@ -16,7 +16,8 @@ import { albumRouter } from './routes/album.js';
 import { heroRouter } from './routes/hero.js';
 import { imageRouter } from './routes/image.js';
 
-import { serviceAccount } from '../credentials/service-account.js';
+// firebase creds - fix this!
+
 
 // --- CONFIGURATION ---
 const __filename = fileURLToPath(import.meta.url);
@@ -38,9 +39,12 @@ const bucket = admin.storage().bucket();
 // --- EXPRESS SETUP ---
 const app = express();
 
+// --- HELMET SETUP ---
 app.use(helmet({
   contentSecurityPolicy: false,
 }));
+
+
 app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
   credentials: true,

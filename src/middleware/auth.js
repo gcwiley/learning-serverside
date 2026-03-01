@@ -9,12 +9,12 @@ export const authenticate = async (req, res, next) => {
    }
 
    // extracts the token
-   const idToken = authHeader.split(' ')[1]; // extract the token after
+   const idToken = authHeader.split(' ')[1];
 
    try {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
-      req.user = decodedToken; // attach the decoded user information to the request object
-      next(); // proceed to the next middleware or route handler
+      req.user = decodedToken;
+      next();
    } catch (error) {
       console.error('Error verifying Firebase ID token:', error);
       res.status(403).json({ message: 'Invalid or expired token' });

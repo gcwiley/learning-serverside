@@ -15,6 +15,6 @@
   "workbench.iconTheme": "material-icon-theme",
   // sets the zoom level
   "window.zoomLevel": 1,
-  // fix this!
+  // list of words to be considered correct
   "cSpell.words": ["appspot", "gcloudignore", "sqldb", "UUIDV"]
 }

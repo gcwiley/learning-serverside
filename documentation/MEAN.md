@@ -17,7 +17,7 @@
 ## Angular vs React vs Vue
 
     - Angular - supported by Google
-    - forces organization - pretty opininated v
+    - forces organization - pretty opinionated v
     - React is more popular - supported by Facebook
     - Vue - easier to adopt incrementally
     - We'll use Node.js for our back-end
@@ -29,3 +29,4 @@
     - Run a web-server
     - Interact with Databases
     - Interact with the file system by reading and writing files
+    
