@@ -11,7 +11,7 @@ import {
   getHeroCount,
   getRecentlyCreatedHeroes,
   searchHeroes,
-} from '../controllers/hero.js';
+} from '../controllers/hero.controller.js';
 
 // GET /api/heroes/count - count all heroes
 router.get('/count', getHeroCount);

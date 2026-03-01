@@ -5,7 +5,7 @@ const router = Router();
 import { upload } from '../middleware/upload.js';
 
 // image controller functions
-import { uploadImage, deleteImage } from '../controllers/image.js';
+import { uploadImage, deleteImage } from '../controllers/image.controller.js';
 
 // POST /api/images/upload
 // uses 'upload.single('image') to handle the file parsing before the controller

@@ -1,4 +1,5 @@
 import path from 'path';
+import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import chalk from 'chalk';
 import admin from 'firebase-admin';
@@ -12,12 +13,15 @@ import { sequelize, connectToDatabase } from './db/connect_to_sqldb.js';
 import './models/index.js';
 
 // --- IMPORT ROUTERS ---
-import { albumRouter } from './routes/album.js';
-import { heroRouter } from './routes/hero.js';
-import { imageRouter } from './routes/image.js';
+import { albumRouter } from './routes/album.routes.js';
+import { heroRouter } from './routes/hero.routes.js';
+import { imageRouter } from './routes/image.routes.js';
 
-// firebase creds - fix this!
-
+const serviceAccount = JSON.parse(
+  readFileSync(
+    path.join(__dirname, '../credentials/service-account.json', 'utf8')
+  )
+);
 
 // --- CONFIGURATION ---
 const __filename = fileURLToPath(import.meta.url);
@@ -40,15 +44,18 @@ const bucket = admin.storage().bucket();
 const app = express();
 
 // --- HELMET SETUP ---
-app.use(helmet({
-  contentSecurityPolicy: false,
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
-
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:4200',
+    credentials: true,
+  })
+);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -65,7 +72,7 @@ const apiLimiter = rateLimit({
   max: 100, // limit each IP to 100 requests per window
   standardHeaders: true, // return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // disable the `X-RateLimit-*` headers
-  message: 'Too many requests from this IP, please try again after 15 minutes.'
+  message: 'Too many requests from this IP, please try again after 15 minutes.',
 });
 
 // apply the rate limiting middleware to API calls

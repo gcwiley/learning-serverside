@@ -11,7 +11,7 @@ import {
   getAlbumCount,
   getRecentlyCreatedAlbums,
   searchAlbums,
-} from '../controllers/album.js';
+} from '../controllers/album.controller.js';
 
 // GET /api/albums/count - count all albums
 router.get('/count', getAlbumCount);
